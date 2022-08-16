@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
-
+import { AsyncStorage } from 'react-native';
 class Profile extends Component {
     constructor(props){
         super(props);
+    }
+    logout = async ()=>{
+         this.props.navigation.reset({
+        index: 0,
+        key: null,
+        routes: [{ name: 'Login' }],
+  });
+      await AsyncStorage.clear();
+
     }
   render() {
     return (
@@ -14,8 +23,8 @@ class Profile extends Component {
         }}>
         <Text>Profile!</Text>
         <Button
-        title="Go to Details"
-        onPress={() => this.props.navigation.navigate('Details')}/>
+        title="logout"
+        onPress={() =>this.logout()}/>
       </View>
     );
   }

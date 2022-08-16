@@ -7,28 +7,23 @@ const {width: viewportWidth,height: viewportHeight} = Dimensions.get('window');
 import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
 import globalStyles from "../../assets/css/globalstyles"
-class Booking extends Component {
+class Purchases extends Component {
     constructor(props){
         super(props);
         this.state = {
           user:[],
           modalVisible: false,
-          "name":"",
-          "mobileno":"",
-          "password":"",
-          nameDirty:false,
-          isNameEmpty:true,
-          passwordDirty:false,
-          isPasswordEmpty:true,
-          mobileDirty:false,
-          isMobileEmpty:true,
+          "comment":"",
+          commentDirty:false,
+          isCommentEmpty:true,
+          purchaseid:-1
         };
         this.user ={};
     }
 
-      fetchBookings = (user,filers={}) => {
+      fetchPurchases = (user,filers={}) => {
         this.props.dispatch({ type: 'SHOW_LOADER' });
-    let url = CONSTANTS.BASE_URL + CONSTANTS.GET_USERS_TICKETS_API;
+    let url = CONSTANTS.BASE_URL + CONSTANTS.GET_SERVICE_USER_PURCHASES_API;
     fetch(url, {
       method: CONSTANTS.METHODS.GET,
       headers: {
@@ -38,7 +33,7 @@ class Booking extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-       alert(JSON.stringify(responseJson))
+       // alert(JSON.stringify(responseJson))
         this.props.dispatch({ type: 'HIDE_LOADER' });
         if (responseJson.success) {
            this.setState({user:responseJson.success})
@@ -51,48 +46,36 @@ class Booking extends Component {
         this.props.dispatch({ type: 'HIDE_LOADER' });
       });
   }
-    getUsers = async () =>{
+    getPurchases = async () =>{
 
       const userData = await AsyncStorage.getItem('userSession');
       if (userData !== null) {
        
         let user = JSON.parse(userData);
         this.user =user;
-        this.fetchBookings(user)
+        this.fetchPurchases(user)
       }
     }
 
     componentDidMount(){
       
-     this.getUsers();
+     this.getPurchases();
     }
 
 
-    createServiceBoy = () => {
+    createTicket = () => {
       let submutForm = true;
-      if(this.state.name == ''){
-        this.setState({isNameEmpty : true});
-        this.setState({nameDirty : true});
-        submutForm = false;
-      } 
-
-       if(this.state.password == '')
+       if(this.state.comment == '')
       {
-        this.setState({isPasswordEmpty : true});
-       this.setState({passwordDirty : true});
-        submutForm = false;
-      }
-
-      if(this.state.mobileno == '')
-      {
-        this.setState({isMobileEmpty : true});
-       this.setState({mobileDirty : true});
+        this.setState({isCommentEmpty : true});
+       this.setState({commentDirty : true});
         submutForm = false;
       }
       if(!submutForm)
       return
+      
       this.props.dispatch({type:'SHOW_LOADER'});
-      let url = CONSTANTS.BASE_URL + CONSTANTS.ADD_SERVICE_BOY;
+      let url = CONSTANTS.BASE_URL + CONSTANTS.CREATE_TICKET_API;
       fetch(url, {
         method: CONSTANTS.METHODS.POST,
         headers: {
@@ -100,9 +83,8 @@ class Booking extends Component {
           'Authorization': `Bearer ${this.user.token}`
         },
         body: JSON.stringify({
-          "name": this.state.name,
-          "mobileno": this.state.mobileno,
-          "password": this.state.password
+          "purchaseid": this.state.purchaseid,
+          "comment": this.state.comment
         })
       })
         .then((response) => response.json())
@@ -135,24 +117,13 @@ class Booking extends Component {
       this.setState({ modalVisible: visible });
     }
   
-    getNameStyle()
+    getComemntStyle()
     {
-      if(this.state.isNameEmpty && this.state.nameDirty){
+      if(this.state.isCommentEmpty && this.state.commentDirty){
       return(globalStyles.textInputAlert);
       }
     }
-    getPasswordStyle()
-    {
-      if(this.state.isPasswordEmpty && this.state.passwordDirty){
-          return(globalStyles.textInputAlert);
-      }
-    }
-    getMobileStyle()
-    {
-      if(this.state.isMobileEmpty && this.state.mobileDirty){
-          return(globalStyles.textInputAlert);
-      }
-    }
+   
     getModel =()  =>{
       const { modalVisible } = this.state;
       return (
@@ -169,45 +140,22 @@ class Booking extends Component {
             <View style={modelStyle.centeredView}>
               <View style={modelStyle.modalView}>
 
-                <Text style={modelStyle.modalText}>Add Service Boy</Text>
+                <Text style={modelStyle.modalText}>Add Purchase</Text>
                 <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
           <TextInput underlineColorAndroid='transparent'
-          placeholder='Name'
-          style={[globalStyles.modelText,this.getNameStyle()]}
-          onChangeText={(name) => {
-            this.setState({name});
-            this.setState({nameDirty : false});
+          placeholder='Comment'
+          style={[globalStyles.modelText,this.getComemntStyle()]}
+          onChangeText={(comment) => {
+            this.setState({comment});
+            this.setState({commentDirty : false});
             // this.setState({isUserNameEmpty : false});
             }}
-            value={this.state.name}
+            value={this.state.comment}
+            multiline={true}
           />
           </View>
-          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
-          <TextInput underlineColorAndroid='transparent'
-          placeholder='Mobile no'
-          style={[globalStyles.modelText,this.getMobileStyle()]}
-          onChangeText={(mobileno) => {
-            this.setState({mobileno});
-            this.setState({mobileDirty : false});
-            // this.setState({isUserNameEmpty : false});
-            }}
-            value={this.state.mobileno}
 
-          />
-          </View>
-          
-          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
-          <TextInput underlineColorAndroid='transparent'
-          placeholder='Password'
-          style={[globalStyles.modelText,this.getPasswordStyle()]}
-          onChangeText={(password) => {
-            this.setState({password});
-            this.setState({passwordDirty : false});
-            // this.setState({isUserNameEmpty : false});
-            }}
-            value={this.state.password}
-          />
-          </View>
+
           
           <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
               <Pressable
@@ -223,11 +171,11 @@ class Booking extends Component {
                 <Pressable
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
-                    this.createServiceBoy();
+                    this.createTicket();
                    
                   }}
                 >
-                  <Text style={modelStyle.textStyle}>Create User</Text>
+                  <Text style={modelStyle.textStyle}>Raise Ticket</Text>
                 </Pressable>
               </View>
               </View>
@@ -246,26 +194,14 @@ class Booking extends Component {
 
         backgroundColor:'white',
       }}>
-        {/* <View style= {{
-      
-      flex: 1,
-      justifyContent: "center",
-      backgroundColor:'rgba(0, 0, 0, 0.3)',
-      height:viewportHeight,
-      width:viewportWidth,
-      position:'absolute',
-      zIndex:999999
-    }}>
-          <ActivityIndicator size="large" />
-          </View> */}
+     
       <View >
         {this.getModel()}
-      <Fab
+        <Fab
       onClick={()=>{
         this.setModalVisible(true)
       }}
          />
-        
       <FlatList
   data={this.state.user}
   renderItem={({ item, index, separators }) => (
@@ -276,35 +212,30 @@ class Booking extends Component {
      
     <View style={styles.tileRow}>
         <View style={styles.tileRowInner}>
-          <Text style={styles.tileTitleText}>Name</Text>
-          <Text style={styles.contentText}>{item.name==undefined?CONSTANTS.BLANK_FIELD:item.name}</Text>
+          <Text style={styles.tileTitleText}>Bill Id</Text>
+          <Text style={styles.contentText}>{item.billid==undefined?CONSTANTS.BLANK_FIELD:item.billid}</Text>
         </View>
         
         <View style={styles.buttonRow}>
         
-                <TouchableOpacity activeOpacity={0.8} style={styles.tileIcon}
+                <TouchableOpacity activeOpacity={0.8} style={[styles.tileIcon,{width: 112,height: 42,}]}
                 onPress={()=>{
-
+                  this.setState({modalVisible:true,purchaseid:item.purchaseid});
+                  
                  }}
                 >
 
-                
+                <Text style={styles.tileTitleText}>Bill Id</Text>
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8} style={styles.tileIcon}
-                onPress={()=>{
-  
-                 }}
-                >
-
-                  </TouchableOpacity></View>
+                </View>
     </View>
        
         <View style={styles.tileRow}>
        
                     
         <View style={{marginVertical:10}}>
-              <Text style={styles.tileTitleText}>User ID</Text>
-              <Text style={styles.contentText}>{item.userid}</Text>
+              <Text style={styles.tileTitleText}>purchaseid ID</Text>
+              <Text style={styles.contentText}>{item.purchaseid}</Text>
             </View>
 
                <View style={{marginVertical:10}}>
@@ -380,4 +311,4 @@ const modelStyle = StyleSheet.create({
 });
 
 
-export default connect()(Booking);
+export default connect()(Purchases);

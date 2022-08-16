@@ -4,8 +4,23 @@ import * as CONSTANTS from '../../utils/constant'
 
 const menuHeight=2;
 const globalStyles = StyleSheet.create({
-
-
+modelText:{
+  width:'100%',
+  backgroundColor:'white',
+  height:viewportHeight*0.08,
+  borderRadius:viewportHeight*0.04,
+  fontSize:viewportWidth*0.05,
+  shadowColor:'rgba(0,0,0,0.3)',
+  shadowRadius:2,
+  shadowOffset:{width:0,height:1},
+  shadowOpacity:1,borderColor:'rgba(0,0,0,0.5)',
+  borderWidth:1,
+  borderColor:'rgba(100,100,100,0.2)',
+  fontFamily:'unisansregular',
+  color:'black',
+  paddingLeft:viewportWidth*0.03,
+},
+// older css
   '@media (max-width: 320)':{
     btnText: {
       fontSize:viewportWidth*0.045,},

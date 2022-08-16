@@ -6,16 +6,21 @@ import { AsyncStorage } from 'react-native';
 const {width: viewportWidth,height: viewportHeight} = Dimensions.get('window');
 import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
-import globalStyles from "../../assets/css/globalstyles"
-class Booking extends Component {
+import globalStyles from "../../assets/css/globalstyles";
+import CheckBox from '@react-native-community/checkbox';
+class UserManagement extends Component {
     constructor(props){
         super(props);
         this.state = {
           user:[],
           modalVisible: false,
+          filterModalVisible:false,
           "name":"",
           "mobileno":"",
           "password":"",
+          "userid":'',
+          "isuser":true,
+          "isadmin":true,
           nameDirty:false,
           isNameEmpty:true,
           passwordDirty:false,
@@ -26,9 +31,18 @@ class Booking extends Component {
         this.user ={};
     }
 
-      fetchBookings = (user,filers={}) => {
+      fetchUsers = (user,filers={}) => {
         this.props.dispatch({ type: 'SHOW_LOADER' });
-    let url = CONSTANTS.BASE_URL + CONSTANTS.GET_USERS_TICKETS_API;
+        let userid ='';
+        let role ='';
+        if(filers.userid){
+          userid=filers.userid;
+        }
+        if(filers.role){
+          role=filers.role;
+        }
+    let url = CONSTANTS.BASE_URL + CONSTANTS.GETUSERS_API+`?userid=${userid}&role=${role}`;
+     
     fetch(url, {
       method: CONSTANTS.METHODS.GET,
       headers: {
@@ -38,16 +52,17 @@ class Booking extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-       alert(JSON.stringify(responseJson))
         this.props.dispatch({ type: 'HIDE_LOADER' });
         if (responseJson.success) {
-           this.setState({user:responseJson.success})
+           this.setState({user:responseJson.success,filterModalVisible:false})
   
 
-        } 
+        } else
+        this.setState({filterModalVisible:false})
 
       })
       .catch((error) => {
+        this.setState({filterModalVisible:false})
         this.props.dispatch({ type: 'HIDE_LOADER' });
       });
   }
@@ -58,13 +73,18 @@ class Booking extends Component {
        
         let user = JSON.parse(userData);
         this.user =user;
-        this.fetchBookings(user)
+        this.fetchUsers(user)
       }
     }
 
     componentDidMount(){
       
      this.getUsers();
+     this.props.navigation.setOptions({
+      headerRight: () => (
+        <Button style ={{backgroundColor:'yellow'}} onPress={() => this.setState({filterModalVisible:true})} title="Filter" />
+      ),
+    });
     }
 
 
@@ -210,25 +230,28 @@ class Booking extends Component {
           </View>
           
           <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
-              <Pressable
+        
+              <Button
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
                  
                     this.setModalVisible(!modalVisible)
                   }
                   }
+                  title="cancel"
                 >
-                  <Text style={modelStyle.textStyle}>cancel</Text>
-                </Pressable>
-                <Pressable
+                 
+                </Button>
+                <Button
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
                     this.createServiceBoy();
                    
                   }}
+                  title="Create User"
                 >
-                  <Text style={modelStyle.textStyle}>Create User</Text>
-                </Pressable>
+                
+                </Button>
               </View>
               </View>
              
@@ -239,6 +262,107 @@ class Booking extends Component {
       );
     }
   
+    getFilterModel =()  =>{
+      const { filterModalVisible } = this.state;
+      return (
+        <View style={modelStyle.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={filterModalVisible}
+            preventNegativeScrolling={false}
+            onRequestClose={() => {
+              this.setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={modelStyle.centeredView}>
+              <View style={modelStyle.modalView}>
+
+                <Text style={modelStyle.modalText}>Apply Filters</Text>
+                <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
+                  
+          <TextInput underlineColorAndroid='transparent'
+          placeholder='User Id'
+          keyboardType ='numeric'
+          style={[globalStyles.modelText]}
+          onChangeText={(userid) => {
+            this.setState({userid});
+
+            // this.setState({isUserNameEmpty : false});
+            }}
+            value={this.state.userid}
+          />
+          </View>
+          <View style={[{padding:4,alignItems:'flex-start',margin:3,width:'90%'}]}>
+          <View style={[globalStyles.fullRow,{alignItems:'flex-start'}]}>
+  <Text style={globalStyles.textBoxLables}>User Type</Text>
+  <View style={{width:'100%',alignSelf:'flex-start',flexDirection:'row',margin:5}}>
+  <CheckBox
+    disabled={false}
+    value={this.state.isuser}
+    onValueChange={(isuser) => this.setState({isuser})}
+  />
+    <View style={{marginTop:-7}}>
+    <Text style={globalStyles.textBoxLables}>Users</Text>
+    </View>
+  </View>
+  <View style={{width:'100%',alignSelf:'flex-start',flexDirection:'row',margin:10}}>
+ 
+  <CheckBox
+    disabled={false}
+    value={this.state.isadmin}
+    onValueChange={(isadmin) => this.setState({isadmin})}
+  />
+ 
+  <View style={{marginTop:-7}}>
+    <Text style={globalStyles.textBoxLables}>Service man</Text>
+    </View>
+  </View>
+  </View>
+      
+ 
+          </View>
+          
+
+          
+          <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
+              <Pressable
+                  style={[modelStyle.button, modelStyle.buttonClose]}
+                  onPress={() =>{ 
+                 
+                    this.setState({filterModalVisible:false})
+                  }
+                  }
+                >
+                  <Text style={modelStyle.textStyle}>cancel</Text>
+                </Pressable>
+                <Pressable
+                  style={[modelStyle.button, modelStyle.buttonClose]}
+                  onPress={() =>{ 
+                    let filter = {};
+                    filter.userid=this.state.userid;
+
+                    if(this.state.isuser && !this.state.isadmin){
+                      filter.role='USER';
+                    }else if(!this.state.isuser && this.state.isadmin){
+                      filter.role='SERVICEUSER';
+                    }
+                    this.fetchUsers(this.user,filter)
+                    //this.createServiceBoy();
+                   
+                  }}
+                >
+                  <Text style={modelStyle.textStyle}>Apply</Text>
+                </Pressable>
+              </View>
+              </View>
+             
+            </View>
+          </Modal>
+
+        </View>
+      );
+    }
   render() {
     return (
       <View style= {{
@@ -260,6 +384,7 @@ class Booking extends Component {
           </View> */}
       <View >
         {this.getModel()}
+        {this.getFilterModel()}
       <Fab
       onClick={()=>{
         this.setModalVisible(true)
@@ -380,4 +505,4 @@ const modelStyle = StyleSheet.create({
 });
 
 
-export default connect()(Booking);
+export default connect()(UserManagement);

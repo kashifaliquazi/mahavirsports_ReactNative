@@ -6,16 +6,21 @@ import { AsyncStorage } from 'react-native';
 const {width: viewportWidth,height: viewportHeight} = Dimensions.get('window');
 import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
-import globalStyles from "../../assets/css/globalstyles"
-class Booking extends Component {
+import globalStyles from "../../assets/css/globalstyles";
+import CheckBox from '@react-native-community/checkbox';
+class TicketManagement extends Component {
     constructor(props){
         super(props);
         this.state = {
           user:[],
           modalVisible: false,
+          filterModalVisible:false,
           "name":"",
           "mobileno":"",
           "password":"",
+          "userid":'',
+          "isuser":true,
+          "isadmin":true,
           nameDirty:false,
           isNameEmpty:true,
           passwordDirty:false,
@@ -26,9 +31,18 @@ class Booking extends Component {
         this.user ={};
     }
 
-      fetchBookings = (user,filers={}) => {
+      fetchTickets = (user,filers={}) => {
         this.props.dispatch({ type: 'SHOW_LOADER' });
-    let url = CONSTANTS.BASE_URL + CONSTANTS.GET_USERS_TICKETS_API;
+        let userid ='';
+        let role ='';
+        if(filers.userid){
+          userid=filers.userid;
+        }
+        if(filers.role){
+          role=filers.role;
+        }
+    let url = CONSTANTS.BASE_URL + CONSTANTS.GET_TICKETS_API+`?userid=${userid}`;
+     
     fetch(url, {
       method: CONSTANTS.METHODS.GET,
       headers: {
@@ -38,33 +52,42 @@ class Booking extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-       alert(JSON.stringify(responseJson))
         this.props.dispatch({ type: 'HIDE_LOADER' });
         if (responseJson.success) {
-           this.setState({user:responseJson.success})
+           this.setState({user:responseJson.success,filterModalVisible:false})
   
 
-        } 
+        } else
+        this.setState({filterModalVisible:false})
 
       })
       .catch((error) => {
+        this.setState({filterModalVisible:false})
         this.props.dispatch({ type: 'HIDE_LOADER' });
       });
   }
-    getUsers = async () =>{
+    getTickets = async () =>{
 
       const userData = await AsyncStorage.getItem('userSession');
       if (userData !== null) {
        
         let user = JSON.parse(userData);
         this.user =user;
-        this.fetchBookings(user)
+        this.fetchTickets(user)
       }
     }
 
     componentDidMount(){
       
-     this.getUsers();
+     this.getTickets();
+     this.props.navigation.setOptions({
+      headerRight: () => (
+        <Button style ={{backgroundColor:'yellow'}} onPress={() => {
+          // this.props.navigation.navigate('TicketDetails')
+          this.setState({filterModalVisible:true});
+        }} title="Filter" />
+      ),
+    });
     }
 
 
@@ -153,14 +176,16 @@ class Booking extends Component {
           return(globalStyles.textInputAlert);
       }
     }
-    getModel =()  =>{
-      const { modalVisible } = this.state;
+
+  
+    getFilterModel =()  =>{
+      const { filterModalVisible } = this.state;
       return (
         <View style={modelStyle.centeredView}>
           <Modal
             animationType="slide"
             transparent={true}
-            visible={modalVisible}
+            visible={filterModalVisible}
             preventNegativeScrolling={false}
             onRequestClose={() => {
               this.setModalVisible(!modalVisible);
@@ -169,52 +194,59 @@ class Booking extends Component {
             <View style={modelStyle.centeredView}>
               <View style={modelStyle.modalView}>
 
-                <Text style={modelStyle.modalText}>Add Service Boy</Text>
+                <Text style={modelStyle.modalText}>Apply Filters</Text>
                 <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
+                  
           <TextInput underlineColorAndroid='transparent'
-          placeholder='Name'
-          style={[globalStyles.modelText,this.getNameStyle()]}
-          onChangeText={(name) => {
-            this.setState({name});
-            this.setState({nameDirty : false});
+          placeholder='User Id'
+          keyboardType ='numeric'
+          style={[globalStyles.modelText]}
+          onChangeText={(userid) => {
+            this.setState({userid});
+
             // this.setState({isUserNameEmpty : false});
             }}
-            value={this.state.name}
+            value={this.state.userid}
           />
           </View>
-          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
-          <TextInput underlineColorAndroid='transparent'
-          placeholder='Mobile no'
-          style={[globalStyles.modelText,this.getMobileStyle()]}
-          onChangeText={(mobileno) => {
-            this.setState({mobileno});
-            this.setState({mobileDirty : false});
-            // this.setState({isUserNameEmpty : false});
-            }}
-            value={this.state.mobileno}
-
-          />
+          <View style={[{padding:4,alignItems:'flex-start',margin:3,width:'90%'}]}>
+          <View style={[globalStyles.fullRow,{alignItems:'flex-start'}]}>
+  <Text style={globalStyles.textBoxLables}>User Type</Text>
+  <View style={{width:'100%',alignSelf:'flex-start',flexDirection:'row',margin:5}}>
+  <CheckBox
+    disabled={false}
+    value={this.state.isuser}
+    onValueChange={(isuser) => this.setState({isuser})}
+  />
+    <View style={{marginTop:-7}}>
+    <Text style={globalStyles.textBoxLables}>Users</Text>
+    </View>
+  </View>
+  <View style={{width:'100%',alignSelf:'flex-start',flexDirection:'row',margin:10}}>
+ 
+  <CheckBox
+    disabled={false}
+    value={this.state.isadmin}
+    onValueChange={(isadmin) => this.setState({isadmin})}
+  />
+ 
+  <View style={{marginTop:-7}}>
+    <Text style={globalStyles.textBoxLables}>Service man</Text>
+    </View>
+  </View>
+  </View>
+      
+ 
           </View>
           
-          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
-          <TextInput underlineColorAndroid='transparent'
-          placeholder='Password'
-          style={[globalStyles.modelText,this.getPasswordStyle()]}
-          onChangeText={(password) => {
-            this.setState({password});
-            this.setState({passwordDirty : false});
-            // this.setState({isUserNameEmpty : false});
-            }}
-            value={this.state.password}
-          />
-          </View>
+
           
           <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
               <Pressable
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
                  
-                    this.setModalVisible(!modalVisible)
+                    this.setState({filterModalVisible:false})
                   }
                   }
                 >
@@ -223,11 +255,20 @@ class Booking extends Component {
                 <Pressable
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
-                    this.createServiceBoy();
+                    let filter = {};
+                    filter.userid=this.state.userid;
+
+                    if(this.state.isuser && !this.state.isadmin){
+                      filter.role='USER';
+                    }else if(!this.state.isuser && this.state.isadmin){
+                      filter.role='SERVICEUSER';
+                    }
+                    this.fetchTickets(this.user,filter)
+                    //this.createServiceBoy();
                    
                   }}
                 >
-                  <Text style={modelStyle.textStyle}>Create User</Text>
+                  <Text style={modelStyle.textStyle}>Apply</Text>
                 </Pressable>
               </View>
               </View>
@@ -238,7 +279,6 @@ class Booking extends Component {
         </View>
       );
     }
-  
   render() {
     return (
       <View style= {{
@@ -259,21 +299,16 @@ class Booking extends Component {
           <ActivityIndicator size="large" />
           </View> */}
       <View >
-        {this.getModel()}
-      <Fab
-      onClick={()=>{
-        this.setModalVisible(true)
-      }}
-         />
+        {this.getFilterModel()}
         
       <FlatList
   data={this.state.user}
   renderItem={({ item, index, separators }) => (
 
 
-<View style={styles.tileWrapper}>
+<TouchableOpacity activeOpacity={0.9}  style={styles.tileWrapper} onPress ={()=>  this.props.navigation.navigate('TicketDetails')}>
     <View style={styles.tileContainer}>
-     
+{/*      
     <View style={styles.tileRow}>
         <View style={styles.tileRowInner}>
           <Text style={styles.tileTitleText}>Name</Text>
@@ -297,29 +332,46 @@ class Booking extends Component {
                 >
 
                   </TouchableOpacity></View>
-    </View>
+    </View> */}
+    <View style={styles.tileRow}>
        
+                    
+       <View style={{marginVertical:10}}>
+       <View style={{marginVertical:10}}>
+        <Text style={styles.tileTitleText}>Ticket id</Text>
+        <Text style={styles.contentText}>{item.ticketid}</Text>
+      </View>
+       <Text style={styles.tileTitleText}>Name</Text>
+          <Text style={styles.contentText}>{item.name==undefined?CONSTANTS.BLANK_FIELD:item.name}</Text>
+         </View>
+
+     
+      <View style={{marginVertical:10}}>
+        <Text style={styles.tileTitleText}>Mobile</Text>
+        <Text style={styles.contentText}>{item.mobileno}</Text>
+      </View>
+       </View> 
         <View style={styles.tileRow}>
        
                     
         <View style={{marginVertical:10}}>
-              <Text style={styles.tileTitleText}>User ID</Text>
-              <Text style={styles.contentText}>{item.userid}</Text>
+              <Text style={styles.tileTitleText}>productid ID</Text>
+              <Text style={styles.contentText}>{item.productid}</Text>
             </View>
 
                <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Mobile no</Text>
-         <Text style={styles.contentText}>{item.mobileno}</Text>
+         <Text style={styles.tileTitleText}>Status</Text>
+         <Text style={styles.contentText}>{item.Status}</Text>
        </View>
        <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Role</Text>
-         <Text style={styles.contentText}>{item.role}</Text>
+         <Text style={styles.tileTitleText}>Status</Text>
+         <Text style={styles.contentText}>{item.status}</Text>
        </View>
         </View> 
  
 
         </View>
-        </View>
+        </TouchableOpacity>
         )}
 />
       </View>
@@ -380,4 +432,4 @@ const modelStyle = StyleSheet.create({
 });
 
 
-export default connect()(Booking);
+export default connect()(TicketManagement);
