@@ -13,7 +13,7 @@ export const GET_TIPS_FOR_TRIPS_VIDEOS= `api/TipsForTrips?featureId=225`
 //export const ACTION_LOG_X_FUNCTION_KEY = REGION =='Dev'? 'VraVz1WHAvz37/QXJqM3QU4ytA7hO2bQDzG6xwpQMciQ2vhnhb3JFA==':'07DSLUPDcIOCfd3QHnG4G1MRr5wXWS2samySlbNy42PTD4ZHVpbZ/Q==';
 
 // Pointing to Demo
-export const BASE_URL = 'http://10.0.2.2:3000/testv1/';// REGION =='Dev'?'https://mhydevapi.azurewebsites.net/':'https://healthyyoudevapi.azurewebsites.net/';
+export const BASE_URL = 'https://sjz9cko958.execute-api.ap-south-1.amazonaws.com/testv1/';// REGION =='Dev'?'https://mhydevapi.azurewebsites.net/':'https://healthyyoudevapi.azurewebsites.net/';
 
 export const LOGIN_API = 'user/login';
 

@@ -22,7 +22,7 @@ modelText:{
   shadowOpacity:1,borderColor:'rgba(0,0,0,0.5)',
   borderWidth:1,
   borderColor:'rgba(100,100,100,0.2)',
-  fontFamily:'unisansregular',
+ // fontFamily:'unisansregular',
   color:'black',
   paddingLeft:viewportWidth*0.03,
 },
@@ -66,10 +66,12 @@ modelText:{
 
 
 
-  h1:{fontSize:viewportWidth*0.07,fontFamily:'unisansregular',alignSelf:'center',textAlign:'center'},
+  h1:{fontSize:viewportWidth*0.07
+   // fontFamily:'unisansregular'
+    ,alignSelf:'center',textAlign:'center'},
   whiteText:{color:'white'},
   
-  h2:{fontSize:viewportWidth*0.05,fontFamily:'unisansregular',alignSelf:'center',textAlign:'center',width:'80%'},
+  h2:{fontSize:viewportWidth*0.05,alignSelf:'center',textAlign:'center',width:'80%'},
 blueContainer:{backgroundColor:'#17AAF1'},
   iOSPicker:{width:'100%',height:viewportHeight/3.3,backgroundColor:'white',borderTopWidth:1,borderColor:'rgba(40,40,40,1)',borderTopLeftRadius:viewportWidth*0.04,borderTopRightRadius:viewportWidth*0.04,top:-26},
   iOSDarkThemePicker:{backgroundColor:'rgba(20,20,20,0.98)'},
@@ -109,7 +111,7 @@ blueContainer:{backgroundColor:'#17AAF1'},
     height: viewportHeight,
   },
   filterTitle: {
-    fontFamily: 'unisansregular',
+   // fontFamily: 'unisansregular',
     color:'#323232',
     fontSize: viewportWidth*0.05,
     top:Platform.OS==='ios'?viewportWidth*0.008:0,
@@ -147,21 +149,21 @@ blueContainer:{backgroundColor:'#17AAF1'},
     shadowOpacity:1,borderColor:'rgba(0,0,0,0.5)',
     borderWidth:1,
     borderColor:'rgba(100,100,100,0.2)',
-    fontFamily:'unisansregular',
+    //fontFamily:'unisansregular',
     color:'black',
     paddingLeft:viewportWidth*0.03,
   },
   textArea:{height:viewportHeight*0.25,textAlignVertical:'top',paddingTop:(viewportHeight*0.25)/10,borderRadius:20,width:'100%', fontSize: '1.2rem',},
-  textBoxLables:{fontFamily:'unisansregular',fontSize:viewportWidth*0.0454,color:'#232323',paddingVertical:viewportHeight*0.015,alignSelf:'flex-start'},
+  textBoxLables:{fontSize:viewportWidth*0.0454,color:'#232323',paddingVertical:viewportHeight*0.015,alignSelf:'flex-start'},
   dropDownRow:{flexDirection:'row',justifyContent:'space-between',alignItems:'center'},
   arrowDown:{fontSize:viewportWidth*0.08,position:'absolute',left:'100%',marginLeft:-viewportWidth*0.05},
 
   datePicker:{justifyContent:'center',alignItems:'center',paddingHorizontal:viewportWidth*0.03},    
-  datePickerText:{alignSelf:'flex-start',fontSize:viewportWidth*0.05,fontFamily:'unisansregular',top:Platform.OS==='ios'?viewportWidth*0.01:0},
+  datePickerText:{alignSelf:'flex-start',fontSize:viewportWidth*0.05,top:Platform.OS==='ios'?viewportWidth*0.01:0},
   datePickerIcon:{marginLeft:viewportWidth*0.02,width:viewportWidth*0.06,height:viewportWidth*0.06,tintColor:'rgba(150,150,150,1)'},
   datePickerInput:{borderWidth:0},
 
-  dropDowntext:{fontSize:viewportWidth*0.05,fontFamily:'unisansregular',top:Platform.OS==='ios'?viewportWidth*0.005:viewportWidth*0.001},
+  dropDowntext:{fontSize:viewportWidth*0.05,top:Platform.OS==='ios'?viewportWidth*0.005:viewportWidth*0.001},
   
 
   //End of input components-->
@@ -180,7 +182,7 @@ blueContainer:{backgroundColor:'#17AAF1'},
 
   paragraphText:{
     fontSize:viewportWidth*0.045,
-    fontFamily:'unisansregular',
+    // fontFamily:'unisansregular',
     marginVertical:20,
     letterSpacing:0,
     textAlign:'center',
@@ -251,7 +253,7 @@ blueContainer:{backgroundColor:'#17AAF1'},
       width: 0,
       height: 4
     },
-    fontFamily: 'unisansregular',
+    //fontFamily: 'unisansregular',
     shadowRadius: 1,
 
     shadowOpacity: 0.3
@@ -275,7 +277,7 @@ blueContainer:{backgroundColor:'#17AAF1'},
       width: 0,
       height: 0
     },
-    fontFamily: 'unisansregular',
+    //fontFamily: 'unisansregular',
     shadowRadius: 8,
     shadowOpacity: 0.9
   },
@@ -352,7 +354,7 @@ ctaSubmenu:{
     //fontSize: CONSTANTS.UI_CONSTANTS.CTA_FONT_SIZE,
     fontSize: viewportWidth*.055,
     color: 'white',
-    fontFamily: 'unisansregular',
+   // fontFamily: 'unisansregular',
     alignSelf: 'center',
     backgroundColor: 'transparent',
     width: '60%',
@@ -375,7 +377,7 @@ ctaSubmenu:{
     top: Platform.OS === 'ios'
       ? 10
       : 5,
-    fontFamily: 'unisansregular',
+    // fontFamily: 'unisansregular',
 
     alignSelf: 'center'
   },
@@ -435,7 +437,7 @@ ctaSubmenu:{
     //top:Platform.OS==='ios'?viewportWidth*0.007:viewportWidth*0.005,
 
     top:Platform.OS==='ios'?viewportWidth*0.01:viewportWidth*0.005,
-    fontFamily:'unisansregular'
+    //fontFamily:'unisansregular'
   },
   checkContainer: {
     borderWidth: 0,

@@ -282,6 +282,17 @@ getServiceBoyRow(assigneedetails){
             <Text style={styles.contentText}>{this.props.route.params.ticket.userid == undefined ? CONSTANTS.BLANK_FIELD : this.props.route.params.ticket.userid}</Text>
           </View>
           <View style={{ marginVertical: 10 }}>
+            <Text style={styles.tileTitleText}>Ticket Id</Text>
+            <Text style={styles.contentText}>{this.props.route.params.ticket.ticketid == undefined ? CONSTANTS.BLANK_FIELD : this.props.route.params.ticket.ticketid}</Text>
+          </View>
+          <View style={{ marginVertical: 10 }}>
+            <Text style={styles.tileTitleText}>Status</Text>
+            <Text style={styles.contentText}>{this.props.route.params.ticket.status == undefined ? CONSTANTS.BLANK_FIELD : this.props.route.params.ticket.status}</Text>
+          </View>
+        </View>
+        <View style={styles.tileRow}>
+      
+          <View style={{ marginVertical: 10 }}>
             <Text style={styles.tileTitleText}>Name</Text>
             <Text style={styles.contentText}>{this.props.route.params.ticket.name == undefined ? CONSTANTS.BLANK_FIELD : this.props.route.params.ticket.name}</Text>
           </View>
@@ -291,14 +302,7 @@ getServiceBoyRow(assigneedetails){
           </View>
         </View>
         <View style={styles.tileRow}>
-          <View style={{ marginVertical: 10 }}>
-            <Text style={styles.tileTitleText}>Ticket Id</Text>
-            <Text style={styles.contentText}>{this.props.route.params.ticket.ticketid == undefined ? CONSTANTS.BLANK_FIELD : this.props.route.params.ticket.ticketid}</Text>
-          </View>
-          <View style={{ marginVertical: 10 }}>
-            <Text style={styles.tileTitleText}>Status</Text>
-            <Text style={styles.contentText}>{this.props.route.params.ticket.status == undefined ? CONSTANTS.BLANK_FIELD : this.props.route.params.ticket.status}</Text>
-          </View>
+        
           <View style={{ marginVertical: 10 }}>
             <Text style={styles.tileTitleText}>Created</Text>
             <Text style={styles.contentText}>{this.props.route.params.ticket.created == undefined ? CONSTANTS.BLANK_FIELD : this.props.route.params.ticket.created}</Text>

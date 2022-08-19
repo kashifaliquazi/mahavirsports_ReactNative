@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   
   smallWhiteText: {
     // fontSize: '1.2rem',
-    // fontFamily: 'unisansregular',
+    // //fontFamily: 'unisansregular',
     color: 'white',
 
     textAlign: 'center'
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   filterTitle: {
-    // fontFamily: 'unisansregular',
+    // //fontFamily: 'unisansregular',
     color:'#555555',
     // fontSize: 24
   },
@@ -151,9 +151,9 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 14,
     width: '100%',
-    // shadowColor: 'rgba(0,0,0,1)',
-    // shadowOpacity: 0.2,
-    // shadowRadius: 6,
+    shadowColor: 'rgba(0,0,0,1)',
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
     elevation:5,
     // shadowOffset: {
     //   width: 0,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   contentText: {
     // fontSize: '1.17rem',
     color: 'black',
-    // fontFamily: 'unisansregular',
+    // //fontFamily: 'unisansregular',
     paddingRight:20
   },
 

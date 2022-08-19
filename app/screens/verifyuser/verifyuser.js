@@ -181,7 +181,7 @@ class SignUp extends Component {
             // shadowOpacity:1,borderColor:'rgba(0,0,0,0.5)',
             // borderWidth:1,
             // borderColor:'rgba(100,100,100,0.2)',
-            // fontFamily:'unisansregular',
+            // 
             color: 'black',
             //   paddingLeft:viewportWidth*0.03,
           }]}
@@ -207,7 +207,7 @@ class SignUp extends Component {
             shadowOpacity: 1, borderColor: 'rgba(0,0,0,0.5)',
             borderWidth: 1,
             borderColor: 'rgba(100,100,100,0.2)',
-            fontFamily: 'unisansregular',
+            //fontFamily: 'unisansregular',
             color: 'black',
             paddingLeft: viewportWidth * 0.03,
           }]}

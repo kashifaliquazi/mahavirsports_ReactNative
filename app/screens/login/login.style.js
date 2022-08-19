@@ -4,7 +4,7 @@ const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 const styles = StyleSheet.create({
   go: {
     fontSize: viewportWidth*0.075,
-    fontFamily: 'unisansbook',
+    // //fontFamily: 'unisansbook',
     backgroundColor: 'rgba(255,255,255,0.0)',
     color: '#8DC440'
   },
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   readyset: {
     fontSize: viewportWidth*0.075,
-    fontFamily: 'unisansbook',
+    // //fontFamily: 'unisansbook',
     backgroundColor: 'rgba(255,255,255,0.0)',
     color: 'blue'
 
@@ -100,14 +100,14 @@ const styles = StyleSheet.create({
     },
     readyset: {
       fontSize: '5rem',
-      fontFamily: 'unisansbook',
+      // //fontFamily: 'unisansbook',
       backgroundColor: 'rgba(255,255,255,0.0)',
       color: '#ffffff'
   
     },
     go: {
       fontSize: '5rem',
-      fontFamily: 'unisansbook',
+      // //fontFamily: 'unisansbook',
       backgroundColor: 'rgba(255,255,255,0.0)',
       color: '#8DC440'
     },
