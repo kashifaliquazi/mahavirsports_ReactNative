@@ -42,7 +42,7 @@ class TicketManagement extends Component {
           role=filers.role;
         }
     let url = CONSTANTS.BASE_URL + CONSTANTS.GET_TICKETS_API+`?userid=${userid}`;
-     
+
     fetch(url, {
       method: CONSTANTS.METHODS.GET,
       headers: {
@@ -55,8 +55,6 @@ class TicketManagement extends Component {
         this.props.dispatch({ type: 'HIDE_LOADER' });
         if (responseJson.success) {
            this.setState({user:responseJson.success,filterModalVisible:false})
-  
-
         } else
         this.setState({filterModalVisible:false})
 
@@ -306,7 +304,11 @@ class TicketManagement extends Component {
   renderItem={({ item, index, separators }) => (
 
 
-<TouchableOpacity activeOpacity={0.9}  style={styles.tileWrapper} onPress ={()=>  this.props.navigation.navigate('TicketDetails')}>
+<TouchableOpacity activeOpacity={0.9}  style={styles.tileWrapper} onPress ={()=> {
+    this.props.navigation.navigate('TicketDetails',{ ticket: item });
+ // this.props.navigation.navigate('TicketDetails')
+   
+   }}>
     <View style={styles.tileContainer}>
 {/*      
     <View style={styles.tileRow}>

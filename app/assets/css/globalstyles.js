@@ -4,6 +4,12 @@ import * as CONSTANTS from '../../utils/constant'
 
 const menuHeight=2;
 const globalStyles = StyleSheet.create({
+  labelText:{
+    fontWeight: 'bold',
+    fontSize:viewportWidth*0.05,
+    color:CONSTANTS.UI_CONSTANTS.MAIN_COLOR,
+    paddingHorizontal:10,
+  },
 modelText:{
   width:'100%',
   backgroundColor:'white',

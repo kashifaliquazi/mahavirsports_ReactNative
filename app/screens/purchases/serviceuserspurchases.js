@@ -21,7 +21,7 @@ class Purchases extends Component {
         this.user ={};
     }
 
-      fetchPurchases = (user,filers={}) => {
+    fetchPurchases = (user,filers={}) => {
         this.props.dispatch({ type: 'SHOW_LOADER' });
     let url = CONSTANTS.BASE_URL + CONSTANTS.GET_SERVICE_USER_PURCHASES_API;
     fetch(url, {
@@ -45,7 +45,7 @@ class Purchases extends Component {
       .catch((error) => {
         this.props.dispatch({ type: 'HIDE_LOADER' });
       });
-  }
+    }
     getPurchases = async () =>{
 
       const userData = await AsyncStorage.getItem('userSession');
@@ -59,7 +59,7 @@ class Purchases extends Component {
 
     componentDidMount(){
       
-     this.getPurchases();
+   //  this.getPurchases();
     }
 
 
@@ -139,7 +139,7 @@ class Purchases extends Component {
           >
             <View style={modelStyle.centeredView}>
               <View style={modelStyle.modalView}>
-
+                
                 <Text style={modelStyle.modalText}>Add Purchase</Text>
                 <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
           <TextInput underlineColorAndroid='transparent'
@@ -155,6 +155,19 @@ class Purchases extends Component {
           />
           </View>
 
+          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
+          <TextInput underlineColorAndroid='transparent'
+          placeholder='Comment'
+          style={[globalStyles.modelText,this.getComemntStyle()]}
+          onChangeText={(productid) => {
+            this.setState({productid});
+            this.setState({commentDirty : false});
+            // this.setState({isUserNameEmpty : false});
+            }}
+            value={this.state.productid}
+            multiline={true}
+          />
+          </View>
 
           
           <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
@@ -199,7 +212,8 @@ class Purchases extends Component {
         {this.getModel()}
         <Fab
       onClick={()=>{
-        this.setModalVisible(true)
+ 
+          this.props.navigation.navigate('AddPurchase');
       }}
          />
       <FlatList
@@ -271,8 +285,8 @@ const modelStyle = StyleSheet.create({
   },
   modalView: {
    // flex: 1,
-    height:viewportHeight - viewportHeight*0.4,
-    width:viewportWidth -viewportWidth *0.1,
+    height:viewportHeight,
+    width:viewportWidth,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,

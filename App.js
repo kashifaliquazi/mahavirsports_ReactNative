@@ -16,6 +16,7 @@ import Profile from "./app/screens/profile/profile"
 import UserManagement from "./app/screens/usermanagement/usermanagement"
 import TicketManagement from "./app/screens/ticketmanagement/ticketmanagement"
 import ServiceTicketManagement from "./app/screens/ticketmanagement/serviceticketmanagement"
+import AddPurchase from "./app/screens/purchases/addpurchase"
 import TicketDetails from "./app/screens/ticketmanagement/ticketdetails"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppContext } from "./context"
@@ -46,6 +47,47 @@ function TicketManagementComponent(){
 </Stack.Navigator>
 )
 }
+
+function ServicePuchaseManagementComponent(){
+  return(   <Stack.Navigator tialRouteName="Purchases">
+  <Stack.Screen 
+  //options={{ headerShown: true }}
+    options={{
+    //  unmountOnBlur: true,
+      //title: 'My home',
+      headerStyle: {
+        backgroundColor: "#0E86D4",
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}
+  name="Purchases" component={ServiceUserPurchases} />
+  <Stack.Screen options={{ headerShown: true }} name="AddPurchase" component={AddPurchase} />
+</Stack.Navigator>
+)
+}
+function PuchaseManagementComponent(){
+  return(   <Stack.Navigator tialRouteName="Purchases">
+  <Stack.Screen 
+  //options={{ headerShown: true }}
+    options={{
+    //  unmountOnBlur: true,
+      //title: 'My home',
+      headerStyle: {
+        backgroundColor: "#0E86D4",
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}
+  name="Purchases" component={Purchases} />
+  <Stack.Screen options={{ headerShown: true }} name="AddPurchase" component={AddPurchase} />
+</Stack.Navigator>
+)
+}
 const USER_MENU =[{
     "name":"Purchases",
     "component":UserPurchases,
@@ -61,46 +103,49 @@ const USER_MENU =[{
   "icon":SolidIcons.userEdit
 }];
 
-const ADMIN_MENU =[
+const ADMIN_MENU = [
   {
-    "name":"Users",
-    "component":UserManagement,
-    "icon":SolidIcons.users
-  },{
-  "name":"Purchases",
-  "component":Purchases,
-  "icon":SolidIcons.shoppingBasket
+    "name": "Users",
+    "component": UserManagement,
+    "icon": SolidIcons.users
+  },
+  {
+    "name": "Purchases",
+    "showHeader": false,
+    "component": PuchaseManagementComponent,
+    "icon": SolidIcons.shoppingBasket
+  },
+  {
+    "name": "Tickets",
+    "component": TicketManagementComponent,
+    "showHeader": false,
+    "icon": SolidIcons.suitcase
+  },
+  {
+    "name": "Profile",
+    "component": Profile,
+    "icon": SolidIcons.userEdit
+  }
+];
+
+const SERVICE_MENU = [{
+  "name": "Purchases",
+  "component": ServicePuchaseManagementComponent,
+  "showHeader": false,
+  "icon": SolidIcons.shoppingBasket
 },
-{
-  "name":"Tickets",
-  "component":TicketManagementComponent,
-  "icon":SolidIcons.suitcase
-},
-{
-  "name":"Profile",
-  "component":Profile,
-  "icon":SolidIcons.userEdit
+  {
+    "name": "Tickets",
+    "component": ServiceTicketManagement,
+    "icon": SolidIcons.userEdit
+  },
+  {
+    "name": "Profile",
+    "component": Profile,
+    "icon": SolidIcons.userEdit
   }];
 
-const SERVICE_MENU =[{
-  "name":"Purchases",
-  "component":ServiceUserPurchases,
-  "icon":SolidIcons.shoppingBasket
-},
-{
-"name":"Tickets",
-"component":ServiceTicketManagement,
-"icon":SolidIcons.userEdit
-},
-{
-"name":"Profile",
-"component":Profile,
-"icon":SolidIcons.userEdit
-}];
 const Stack = createNativeStackNavigator();
-
-
-
 
 class TabMenu extends Component {
   constructor(props) {
@@ -134,13 +179,12 @@ class TabMenu extends Component {
     return(
       <AppContext.Provider value={{menu:this.state.menue}}>
       <Tab.Navigator
-      
       unmountOnBlur={true}>
         {
         this.state.menu.map((item)=>{
           let showHeader = true;
-          if(item.name == "TicketManagement")
-          showHeader = false;
+          if(item.showHeader!=undefined )
+          showHeader = item.showHeader;
           return <Tab.Screen name={item.name} component={item.component}
           
           options={{

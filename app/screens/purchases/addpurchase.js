@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View,ActivityIndicator, Button,TextInput, Dimensions, TouchableOpacity,FlatList,Modal, Alert,Pressable,StyleSheet  } from 'react-native';
+import { Text, View,ActivityIndicator, Button,TextInput,ScrollView,SafeAreaView, Dimensions,KeyboardAvoidingView, TouchableOpacity,FlatList,Modal, Alert,Pressable,StyleSheet  } from 'react-native';
 import styles from '../../assets/css/lisitng' ;
 import Fab from '../../components/fab/Fab'
 import { AsyncStorage } from 'react-native';
@@ -15,18 +15,27 @@ class UserManagement extends Component {
           user:[],
           modalVisible: false,
           filterModalVisible:false,
-          "name":"",
-          "mobileno":"",
-          "password":"",
+          "name":'',
+          "billid":'',
+          "mobileno":'',
           "userid":'',
-          "isuser":true,
-          "isadmin":true,
+          "productid":'',
+          "purchasedetails":'',
+          "comment":'',
           nameDirty:false,
           isNameEmpty:true,
-          passwordDirty:false,
-          isPasswordEmpty:true,
+          billidDirty:false,
+          isBillidEmpty:true,
           mobileDirty:false,
           isMobileEmpty:true,
+          useridDirty:false,
+          isUseridEmpty:true,
+          productidDirty:false,
+          isProductidEmpty:true,
+          purchasedetailsDirty:false,
+          isPurchasedetailsEmpty:true, 
+          commentDirty:false,
+          isCommentEmpty:true,          
         };
         this.user ={};
     }
@@ -73,46 +82,54 @@ class UserManagement extends Component {
        
         let user = JSON.parse(userData);
         this.user =user;
-        this.fetchUsers(user)
+      //  this.fetchUsers(user)
       }
     }
 
     componentDidMount(){
-      
      this.getUsers();
-     this.props.navigation.setOptions({
-      headerRight: () => (
-        <Button style ={{backgroundColor:'yellow'}} onPress={() => this.setState({filterModalVisible:true})} title="Filter" />
-      ),
-    });
     }
 
 
-    createServiceBoy = () => {
+    createPurcahse = () => {
       let submutForm = true;
-      if(this.state.name == ''){
-        this.setState({isNameEmpty : true});
-        this.setState({nameDirty : true});
+      if(this.state.userid == ''){
+        this.setState({isUseridEmpty : true});
+        this.setState({useridDirty : true});
         submutForm = false;
       } 
 
-       if(this.state.password == '')
+       if(this.state.productid == '')
       {
-        this.setState({isPasswordEmpty : true});
-       this.setState({passwordDirty : true});
+        this.setState({isProductidEmpty : true});
+       this.setState({productidDirty : true});
         submutForm = false;
       }
 
-      if(this.state.mobileno == '')
+      if(this.state.billid == '')
       {
-        this.setState({isMobileEmpty : true});
-       this.setState({mobileDirty : true});
+        this.setState({isBillidEmpty : true});
+       this.setState({billidDirty : true});
+        submutForm = false;
+      }
+
+      if(this.state.purchasedetails == '')
+      {
+       this.setState({isProductidEmpty : true});
+       this.setState({purchasedetailsDirty : true});
+        submutForm = false;
+      }
+      
+      if(this.state.comment == '')
+      {
+        this.setState({isCommentEmpty : true});
+       this.setState({commentDirty : true});
         submutForm = false;
       }
       if(!submutForm)
       return
       this.props.dispatch({type:'SHOW_LOADER'});
-      let url = CONSTANTS.BASE_URL + CONSTANTS.ADD_SERVICE_BOY;
+      let url = CONSTANTS.BASE_URL + CONSTANTS.ADD_PURCHASE_API;
       fetch(url, {
         method: CONSTANTS.METHODS.POST,
         headers: {
@@ -120,27 +137,19 @@ class UserManagement extends Component {
           'Authorization': `Bearer ${this.user.token}`
         },
         body: JSON.stringify({
-          "name": this.state.name,
-          "mobileno": this.state.mobileno,
-          "password": this.state.password
+          "userid":this.state.userid,
+          "productid":this.state.productid,
+          "comment":this.state.comment,
+          "purchasedetails":this.state.purchasedetails,
+          "billid":this.state.billid
         })
       })
         .then((response) => response.json())
         .then((responseJson) => {
           this.props.dispatch({type:'HIDE_LOADER'});
           console.log(responseJson)
-          
+          alert(JSON.stringify(responseJson));
           if (responseJson.success) {
-            let createdUser ={
-              "name": this.state.name,
-              "mobileno": this.state.mobileno,
-              "password": this.state.password,
-              "userid":responseJson.success.userid,
-              "role":"SERVICEBOY"
-            }
-            let users = [createdUser, ...this.state.user];
-            this.setState({user:users,modalVisible:false})
-           // this.setModalVisible(false)
 
   
           } 
@@ -155,21 +164,33 @@ class UserManagement extends Component {
       this.setState({ modalVisible: visible });
     }
   
-    getNameStyle()
+    getUseridStyle()
     {
-      if(this.state.isNameEmpty && this.state.nameDirty){
+      if(this.state.isUseridEmpty && this.state.useridDirty){
       return(globalStyles.textInputAlert);
       }
     }
-    getPasswordStyle()
+    getProductidStyle()
     {
-      if(this.state.isPasswordEmpty && this.state.passwordDirty){
+      if(this.state.isProductidEmpty && this.state.productidDirty){
           return(globalStyles.textInputAlert);
       }
     }
-    getMobileStyle()
+    getBillidStyles()
     {
-      if(this.state.isMobileEmpty && this.state.mobileDirty){
+      if(this.state.isBillidEmpty && this.state.billidDirty){
+          return(globalStyles.textInputAlert);
+      }
+    }
+    getPurchasedetailsStyles()
+    {
+      if(this.state.isPurchasedetailsEmpty && this.state.purchasedetailsDirty){
+          return(globalStyles.textInputAlert);
+      }
+    }
+    getCommentStyles()
+    {
+      if(this.state.isCommentEmpty && this.state.commentDirty){
           return(globalStyles.textInputAlert);
       }
     }
@@ -245,7 +266,7 @@ class UserManagement extends Component {
                 <Button
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
-                    this.createServiceBoy();
+                    this.createPurcahse();
                    
                   }}
                   title="Create User"
@@ -321,7 +342,7 @@ class UserManagement extends Component {
   </View>
       
  
-          </View>
+ </View>
           
 
           
@@ -348,7 +369,7 @@ class UserManagement extends Component {
                       filter.role='SERVICEUSER';
                     }
                     this.fetchUsers(this.user,filter)
-                    //this.createServiceBoy();
+                    //this.createPurcahse();
                    
                   }}
                 >
@@ -365,84 +386,105 @@ class UserManagement extends Component {
     }
   render() {
     return (
-      <View style= {{
-      
-
+      <SafeAreaView
+    edges={[ 'left', 'right' ]}
+    style= {{
+      backgroundColor:'white',
+    }}
+   >
+      <KeyboardAvoidingView behavior="position" style= {{
         backgroundColor:'white',
       }}>
-        {/* <View style= {{
-      
-      flex: 1,
-      justifyContent: "center",
-      backgroundColor:'rgba(0, 0, 0, 0.3)',
-      height:viewportHeight,
-      width:viewportWidth,
-      position:'absolute',
-      zIndex:999999
-    }}>
-          <ActivityIndicator size="large" />
-          </View> */}
-      <View >
-        {this.getModel()}
-        {this.getFilterModel()}
-      <Fab
-      onClick={()=>{
-        this.setModalVisible(true)
-      }}
-         />
+         <ScrollView
+        bounces={false}
+       // contentContainerStyle={commonStyles.scrollContainer}
+        contentInsetAdjustmentBehavior="always"
+        overScrollMode="always"
+        showsVerticalScrollIndicator={true}
+    //    style={commonStyles.scroll}
+      >
+      <View style= {{backgroundColor:'white'}}>
+        {/* {this.getModel()}
+        {this.getFilterModel()} */}
+                 <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'95%'}]}>
+          <TextInput underlineColorAndroid='transparent'
+          placeholder='User Id'
+          eyboardType ='numeric'
+          style={[globalStyles.modelText,this.getUseridStyle()]}
+          onChangeText={(userid) => {
+            this.setState({userid});
+            this.setState({useridDirty : false});
+            // this.setState({isUserNameEmpty : false});
+            }}
+            value={this.state.userid}/>
+          </View>
+                <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'95%'}]}>
+          <TextInput underlineColorAndroid='transparent'
+          placeholder='Product Id'
+          style={[globalStyles.modelText,this.getProductidStyle()]}
+          onChangeText={(productid) => {
+            this.setState({productid});
+            this.setState({productidDirty : false});
+            // this.setState({isUserNameEmpty : false});
+            }}
+            value={this.state.productid}
+          />
+          </View>
+          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'95%'}]}>
+          <TextInput underlineColorAndroid='transparent'
+          placeholder='Bill Id'
+          style={[globalStyles.modelText,this.getBillidStyles()]}
+          onChangeText={(billid) => {
+            this.setState({billid});
+            this.setState({billidDirty : false});
+            // this.setState({isUserNameEmpty : false});
+            }}
+            value={this.state.billid}
+          />
+          </View>
+          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'95%'}]}>
+          <TextInput underlineColorAndroid='transparent'
+          placeholder='Purchase Details'
+          multiline={true}
+          style={[globalStyles.modelText,this.getPurchasedetailsStyles()]}
+          onChangeText={(purchasedetails) => {
+            this.setState({purchasedetails});
+            this.setState({purchasedetailsDirty : false});
+            // this.setState({isUserNameEmpty : false});
+            }}
+            value={this.state.purchasedetails}
+          />
+          </View>
+          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'95%'}]}>
+          <TextInput underlineColorAndroid='transparent'
+          placeholder='Comment'
+          multiline={true}
+          style={[globalStyles.modelText,this.getCommentStyles()]}
+          onChangeText={(comment) => {
+            this.setState({comment});
+            this.setState({commentDirty : false});
+            // this.setState({isUserNameEmpty : false});
+            }}
+            value={this.state.comment}
+          />
+          </View>
+          <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
+                <Pressable
+                  style={[modelStyle.button, modelStyle.buttonClose]}
+                  onPress={() =>{ 
+                    this.createPurcahse();
+                   
+                  }}>
+                  <Text style={modelStyle.textStyle}>Create Purchse</Text>
+                </Pressable>
+              </View>
+             
         
-      <FlatList
-  data={this.state.user}
-  renderItem={({ item, index, separators }) => (
-
-
-<View style={styles.tileWrapper}>
-    <View style={styles.tileContainer}>
-     
-    <View style={styles.tileRow}>
-    <View style={{marginVertical:10}}>
-              <Text style={styles.tileTitleText}>User ID</Text>
-              <Text style={styles.contentText}>{item.userid==undefined?CONSTANTS.BLANK_FIELD:item.userid}</Text>
-            </View>
-        <View style={{marginVertical:10}}>
-              <Text style={styles.tileTitleText}>Name</Text>
-              <Text style={styles.contentText}>{item.name==undefined?CONSTANTS.BLANK_FIELD:item.name}</Text>
-            </View>
-        <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Mobile no</Text>
-         <Text style={styles.contentText}>{item.mobileno}</Text>
-       </View>
-        
-      
-    </View>
-       
-        <View style={styles.tileRow}>
-       
-                    
-     
-
-  
-       <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Role</Text>
-         <Text style={styles.contentText}>{item.role}</Text>
-       </View>
-       <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Status</Text>
-         <Text style={styles.contentText}>{item.status}</Text>
-       </View>
-       <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Created</Text>
-         <Text style={styles.contentText}>{item.created}</Text>
-       </View>
-        </View> 
- 
-
-        </View>
-        </View>
-        )}
-/>
       </View>
-    </View>
+      
+      </ScrollView>
+    </KeyboardAvoidingView>
+    </SafeAreaView>
     );
   }
 }

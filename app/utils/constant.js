@@ -16,20 +16,24 @@ export const GET_TIPS_FOR_TRIPS_VIDEOS= `api/TipsForTrips?featureId=225`
 export const BASE_URL = 'http://10.0.2.2:3000/testv1/';// REGION =='Dev'?'https://mhydevapi.azurewebsites.net/':'https://healthyyoudevapi.azurewebsites.net/';
 
 export const LOGIN_API = 'user/login';
-export const GETUSERS_API = 'admin/getusers';
-export const GET_TICKETS_API = 'admin/getticiets';
+
+export const GET_TICKETS_API = 'admin/gettickets';
 export const ADD_SERVICE_BOY = 'admin/addserviceboy';
+export const GETUSERS_API = 'admin/getusers';
+export const GET_PURCHASES_API = 'admin/getpurchases';
+export const ASSIGN_TICKET = 'admin/assignticket';
+
+
 export const SIGNUP_API = 'user/signup';
 export const VERIFY_USER_API = 'user/verify';
-
-
 export const GET_USERS_PURCHASES_API = 'user/getpurchases';
 export const GET_USERS_TICKETS_API = 'user/getticekts';
 export const CREATE_TICKET_API = 'user/createticket';
-
+export const UPDATE_PASSWORD_API ="user/updatepassword"
 
 export const GET_ASSIGNED_TICKETS_API = 'service/getassignedtickets';
 export const GET_SERVICE_USER_PURCHASES_API = 'service/getpurchases';
+export const ADD_PURCHASE_API = 'service/addpurchase';
 
 export const CDN_BASE_URL ='https://mhydemoassets.blob.core.windows.net/';// REGION =='Dev'? 'https://mhydevassets.blob.core.windows.net/':'https://mhyqaassets.blob.core.windows.net/';
 export const ACTION_LOG_API = 'https://mhydemofunc.azurewebsites.net'; //REGION =='Dev'? 'https://mhydevfunc.azurewebsites.net/api/InsertActionLog':'https://mhyqafunc.azurewebsites.net/api/InsertActionLog';
@@ -404,6 +408,7 @@ export const PAGE_SIZE = 8;
 export const UI_CONSTANTS={
 
     //colors
+    MAIN_COLOR:'#0E86D4',
 
     PRIMARY_COLOR:'#1C1C57',
 

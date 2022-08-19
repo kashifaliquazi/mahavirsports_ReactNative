@@ -7,8 +7,6 @@ const {
 import * as CONSTANTS from '../../utils/constant';
 
 const styles = StyleSheet.create({
-
-
   fabButton: {
     width: CONSTANTS.FAB_BUTTON_SIZE,
     height: CONSTANTS.FAB_BUTTON_SIZE,
@@ -18,7 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     right:viewportWidth*0.045,
-    top: viewportHeight - viewportHeight*0.43,
+    top: viewportHeight - viewportHeight*0.38,
     position: 'absolute',
     zIndex: 9999,
     shadowColor: 'black',
