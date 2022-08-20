@@ -10,6 +10,11 @@ const globalStyles = StyleSheet.create({
     color:CONSTANTS.UI_CONSTANTS.MAIN_COLOR,
     paddingHorizontal:10,
   },
+  separator: {
+    marginVertical: 15,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
 modelText:{
   width:'100%',
   backgroundColor:'white',

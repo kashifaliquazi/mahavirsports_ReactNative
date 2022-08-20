@@ -37,6 +37,19 @@ class Profile extends Component {
           isCommentEmpty:true,          
         };
     }
+    getUsers = async () =>{
+
+      const userData = await AsyncStorage.getItem('userSession');
+      if (userData !== null) {
+       
+        let user = JSON.parse(userData);
+        this.user =user;
+      }
+    }
+    componentDidMount(){
+      
+      this.getUsers();
+     }
     logout = async ()=>{
          this.props.navigation.reset({
         index: 0,
@@ -160,12 +173,16 @@ class Profile extends Component {
         }}>
           <View style={{
         //paddingVertical:40
-        top:30
+       // top:30
       }}>
+         <View style={{
+        width:"90%",
+        height:30
+      }}></View> 
         <View style={{
           flexDirection:"row",
 
-         marginTop:7
+       //  marginTop:7
         }}>
           <View style={{width:"45%"}}>
         <Text style={[globalStyles.labelText,{color:"grey",fontSize:viewportWidth*0.04,}]}>User Id</Text>
@@ -191,16 +208,17 @@ class Profile extends Component {
         <Text style={[globalStyles.labelText,{color:"black",}]}>9098580784</Text>
       </View>
       </View>
-      <View style={{
+      {/* <View style={{
         width:"90%",
         height:80
-      }}></View>
+      }}></View> */}
       <View
       style={{
         width:"90%",
        // paddingVertical:80
       }}
       >
+         <View style={globalStyles.separator} />
   
   <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'95%'}]}>
           <TextInput underlineColorAndroid='transparent'
