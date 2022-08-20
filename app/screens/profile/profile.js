@@ -267,19 +267,21 @@ class Profile extends Component {
           backgroundColor: 'white',
         }}
       >
-        <KeyboardAvoidingView behavior="position" style={{
+        <KeyboardAvoidingView
+       //  behavior="height"
+          style={{
           backgroundColor: 'white',
         }}>
           <ScrollView
             bounces={false}
             // contentContainerStyle={commonStyles.scrollContainer}
-            contentInsetAdjustmentBehavior="always"
-            overScrollMode="always"
-            showsVerticalScrollIndicator={true}
+          //  contentInsetAdjustmentBehavior="always"
+          //  overScrollMode="always"
+          //  showsVerticalScrollIndicator={true}
           //    style={commonStyles.scroll}
           >
             <View style={{
-              flex: 1,
+             // flex: 1,
               
               // justifyContent: "space-between",
              // alignItems: "center"
