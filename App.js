@@ -1,7 +1,8 @@
 import * as React from 'react';
 import  { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Button } from 'react-native';
+import { Button, Dimensions } from 'react-native';
+const {width: viewportWidth,height: viewportHeight} = Dimensions.get('window');
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from "./app/screens/home/home"
@@ -28,7 +29,7 @@ import Loader from './app/components/loader/loader'
 import * as CONSTANTS from './app/utils/constant'
 import FontAwesome, {Icons,SolidIcons, RegularIcons, BrandIcons} from 'react-native-fontawesome';
 function TicketManagementComponent(){
-  return(   <Stack.Navigator tialRouteName="TicketDetails">
+  return(   <Stack.Navigator initialRouteName="TicketManagement">
   <Stack.Screen 
   //options={{ headerShown: true }}
     options={{
@@ -39,8 +40,10 @@ function TicketManagementComponent(){
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
+        fontSize:viewportWidth*0.06,
         fontWeight: 'bold',
       },
+      title:"Ticket Management"
     }}
   name="TicketManagement" component={TicketManagement} />
   <Stack.Screen options={{ headerShown: true }} name="TicketDetails" component={TicketDetails} />
@@ -60,11 +63,12 @@ function ServicePuchaseManagementComponent(){
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
+        fontSize:viewportWidth*0.06,
         fontWeight: 'bold',
       },
     }}
   name="Purchases" component={ServiceUserPurchases} />
-  <Stack.Screen options={{ headerShown: true }} name="AddPurchase" component={AddPurchase} />
+  <Stack.Screen options={{ headerShown: true,title: '', }} name="AddPurchase" component={AddPurchase} />
 </Stack.Navigator>
 )
 }
@@ -80,11 +84,14 @@ function PuchaseManagementComponent(){
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
+        fontSize:viewportWidth*0.06,
         fontWeight: 'bold',
       },
     }}
   name="Purchases" component={Purchases} />
-  <Stack.Screen options={{ headerShown: true }} name="AddPurchase" component={AddPurchase} />
+  <Stack.Screen options={{ 
+    
+    headerShown: true,title: '', }} name="AddPurchase" component={AddPurchase} />
 </Stack.Navigator>
 )
 }
@@ -137,7 +144,7 @@ const SERVICE_MENU = [{
   {
     "name": "Tickets",
     "component": ServiceTicketManagement,
-    "icon": SolidIcons.userEdit
+    "icon": SolidIcons.suitcase
   },
   {
     "name": "Profile",
@@ -150,7 +157,7 @@ const Stack = createNativeStackNavigator();
 class TabMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = { menu:USER_MENU };
+    this.state = { menu:ADMIN_MENU };
   }
   getUserDataFromStorage = async () =>{
 
@@ -186,7 +193,6 @@ class TabMenu extends Component {
           if(item.showHeader!=undefined )
           showHeader = item.showHeader;
           return <Tab.Screen name={item.name} component={item.component}
-          
           options={{
             headerShown: showHeader,
             unmountOnBlur: true,
@@ -194,10 +200,13 @@ class TabMenu extends Component {
             headerStyle: {
               backgroundColor: "#0E86D4",
             },
+            tabBarShowLabel:false,
             headerTintColor: '#fff',
             headerTitleStyle: {
+              fontSize:viewportWidth*0.06,
               fontWeight: 'bold',flexWrap: 'wrap'
             },
+                  cardStyle: { },
           //   tabBarOptions: { 
           //     showIcon: true 
           //  },
@@ -240,7 +249,15 @@ function App() {
        <Loader/>
     <NavigationContainer>
      
-      <Stack.Navigator tialRouteName="Login">
+      <Stack.Navigator tialRouteName="Login"
+      
+      screenOptions={{
+        contentStyle:{
+       //   backgroundColor:'red'
+        },
+       // headerStyle: { elevation: 0 },
+        cardStyle: { }
+    }}>
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
         <Stack.Screen options={{ headerShown: false }}  name="SignUp" component={SignUp} />
         <Stack.Screen options={{ headerShown: false }}  name="VerifyUser" component={VerifyUser} />

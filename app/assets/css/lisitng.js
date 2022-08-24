@@ -4,6 +4,20 @@ const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 import * as CONSTANTS from '../../utils/constant';
 const styles = StyleSheet.create({
 
+  buttonLargeContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10
+  },
+primaryButton: {
+    backgroundColor: '#FF0017',
+  },
+buttonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold'
+  },
   goalContainer: {
     backgroundColor: 'white',
     padding: 20,

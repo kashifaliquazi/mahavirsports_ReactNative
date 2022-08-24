@@ -7,6 +7,7 @@ import * as CONSTANTS from '../../utils/constant';
 // import Separator from '../../components/separator/separator'
 import GradientButton from '../../components/gradientbutton/gradientButton';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+import KeyboardHandling from "../../components/keyboardhandling/keyboardhandling";
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -144,25 +145,25 @@ class Profile extends Component {
   }
   getProfileView= () =>{
     return (<View >
-      <View style={{
+      {/* <View style={{
         width: "90%",
         height: 30
-      }}></View>
+      }}></View> */}
       <View>
-      <View style={{ width: "45%",paddingHorizontal:"4%", }}>
+      <View style={{ width: "45%",paddingHorizontal:"4%", paddingVertical:"5%" }}>
         <Text style={[globalStyles.labelText, { color: "#0E86D4", paddingHorizontal: 0 }]}>User Profile</Text>
       </View>
       <View style={{ 
       //  width:"90%",
       paddingHorizontal:"8%",
-        backgroundColor: "red" }}>
+         }}>
         <View style={{
           flexDirection: "row",
           paddingVertical: 7
           //  marginTop:7
         }}>
           <View style={{ width: "45%" }}>
-            <Text style={[globalStyles.labelText, { color: "grey", fontSize: viewportWidth * 0.04, }]}>User Id</Text>
+            <Text style={[globalStyles.labelText, { color: "grey" }]}>User Id</Text>
           </View>
           <Text style={[globalStyles.labelText, { color: "black", }]}>1</Text>
         </View>
@@ -171,7 +172,7 @@ class Profile extends Component {
           paddingVertical: 7
         }}>
           <View style={{ width: "45%" }}>
-            <Text style={[globalStyles.labelText, { color: "grey", fontSize: viewportWidth * 0.04, }]}>Name</Text>
+            <Text style={[globalStyles.labelText, { color: "grey" }]}>Name</Text>
           </View>
           <Text style={[globalStyles.labelText, { color: "black", }]}>Kashif Ali</Text>
         </View>
@@ -180,7 +181,7 @@ class Profile extends Component {
           paddingVertical: 7
         }}>
           <View style={{ width: "45%" }}>
-            <Text style={[globalStyles.labelText, { color: "grey", fontSize: viewportWidth * 0.04, }]}>Mobile Number</Text>
+            <Text style={[globalStyles.labelText, { color: "grey" }]}>Mobile No.</Text>
           </View>
           <Text style={[globalStyles.labelText, { color: "black", }]}>9098580784</Text>
         </View>
@@ -192,11 +193,16 @@ class Profile extends Component {
     return (<View
       style={{
        // width: "90%",
-        backgroundColor:'blue'
+      //  backgroundColor:'blue'
         // paddingVertical:80
       }}>
+        <View style={ {alignItems:"center",
+    justifyContent:"center",
+    alignContent:"center",}}
+    >
       <View style={globalStyles.separator} />
-      <View style={{ width: "90%",paddingHorizontal:"4%" }}>
+      </View>
+      <View style={{ width: "90%",paddingHorizontal:"4%",paddingVertical:"5%" }}>
         <Text style={[globalStyles.labelText, { color: "#0E86D4", paddingHorizontal: 0 }]}>Change Password</Text>
       </View>
       <View style={{ paddingHorizontal:"8%" }}>
@@ -242,11 +248,7 @@ class Profile extends Component {
       }}>
         <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Change Password'}
           onPress={() => this.changePassword()} />
-
-</View>
-      </View>
-     
-      <View style={{
+   <View style={{
         flexDirection: "column",
         paddingVertical: 7
       }}>
@@ -257,41 +259,24 @@ class Profile extends Component {
           onPress={() => this.logout()} />
 
       </View>
+</View>
+      </View>
     </View>)
   }
   render() {
     return (
-      <SafeAreaView
-        edges={['left', 'right']}
-        style={{
-          backgroundColor: 'white',
-        }}
-      >
-        <KeyboardAvoidingView
-       //  behavior="height"
-          style={{
-          backgroundColor: 'white',
-        }}>
-          <ScrollView
-            bounces={false}
-            // contentContainerStyle={commonStyles.scrollContainer}
-          //  contentInsetAdjustmentBehavior="always"
-          //  overScrollMode="always"
-          //  showsVerticalScrollIndicator={true}
-          //    style={commonStyles.scroll}
-          >
+      <KeyboardHandling>
             <View style={{
-             // flex: 1,
+              flex: 1,
               
-              // justifyContent: "space-between",
-             // alignItems: "center"
+             // minHeight:viewportHeight
             }}>
               {this.getProfileView()}
               {this.getChangePasswordView()}
+              
             </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+      </KeyboardHandling>
+ 
     );
   }
 }

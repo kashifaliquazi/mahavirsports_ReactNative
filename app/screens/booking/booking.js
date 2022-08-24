@@ -7,6 +7,9 @@ const {width: viewportWidth,height: viewportHeight} = Dimensions.get('window');
 import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
 import globalStyles from "../../assets/css/globalstyles"
+import MyButton from "../../components/mybutton/mybutton";
+import FontAwesome, {Icons,SolidIcons, RegularIcons, BrandIcons} from 'react-native-fontawesome';
+
 class Booking extends Component {
     constructor(props){
         super(props);
@@ -169,7 +172,10 @@ class Booking extends Component {
             <View style={modelStyle.centeredView}>
               <View style={modelStyle.modalView}>
 
-                <Text style={modelStyle.modalText}>Add Service Boy</Text>
+              <View style={[{paddingVertical:10}]}>
+              <Text style={globalStyles.labelText}>Create Ticket</Text>
+              </View>
+               
                 <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
           <TextInput underlineColorAndroid='transparent'
           placeholder='Name'
@@ -208,8 +214,24 @@ class Booking extends Component {
             value={this.state.password}
           />
           </View>
-          
-          <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
+          <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', margin: 10 }}>
+
+                  
+              <MyButton
+    title="cancel"
+    color="grey"
+       onPress={() => {this.setModalVisible(!modalVisible)}
+       }/>
+
+<MyButton
+    title="Create User"
+    color={CONSTANTS.UI_CONSTANTS.SECONDARY_COLOR}
+       onPress={() => {this.createServiceBoy()}
+       }/>
+
+               
+              </View>
+          {/* <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
               <Pressable
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
@@ -229,7 +251,7 @@ class Booking extends Component {
                 >
                   <Text style={modelStyle.textStyle}>Create User</Text>
                 </Pressable>
-              </View>
+              </View> */}
               </View>
              
             </View>

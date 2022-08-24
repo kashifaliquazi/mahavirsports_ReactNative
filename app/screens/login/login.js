@@ -24,9 +24,13 @@ class Login extends Component {
   }
 
   getUserDataFromStorage = async () =>{
+//     this.props.navigation.reset({
+//       index: 0,
+//       routes: [{ name: 'Home' }],
+// });
 
     const userData = await AsyncStorage.getItem('userSession');
-    if (userData !== null) {
+    if (userData !== null ) {
       // We have data!!
       //alert(userData)
       this.props.navigation.reset({

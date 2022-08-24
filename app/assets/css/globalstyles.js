@@ -14,11 +14,14 @@ const globalStyles = StyleSheet.create({
     marginVertical: 15,
     borderBottomColor: '#737373',
     borderBottomWidth: StyleSheet.hairlineWidth,
+    width:"90%",
+   
+   // left:50,
   },
 modelText:{
   width:'100%',
   backgroundColor:'white',
-  height:viewportHeight*0.08,
+  height:viewportHeight*0.06,
   borderRadius:viewportHeight*0.04,
   fontSize:viewportWidth*0.05,
   shadowColor:'rgba(0,0,0,0.3)',
@@ -174,7 +177,9 @@ blueContainer:{backgroundColor:'#17AAF1'},
   //End of input components-->
   
   
-  dateInputText:{fontFamily: 'unisansregular',fontSize:viewportWidth*0.05,color:'black'},
+  dateInputText:{
+   // fontFamily: 'unisansregular',
+    fontSize:viewportWidth*0.05,color:'black'},
   barChartContainer:{ flexDirection: 'row',paddingHorizontal:0,paddingBottom:0,height:viewportHeight*1.05},
   kpiDetailsInnerPageWrapper:{paddingTop:0,minHeight:viewportHeight},
   chartContainer:{backgroundColor:'#121212',borderRadius:viewportWidth*0.05,paddingVertical:20,marginVertical:10,borderWidth:1,borderColor:'rgba(255,255,255,0.2)',shadowColor:'rgba(0,0,0,0.5)',shadowRadius:10,shadowOffset:{width:0,height:5},shadowOpacity:1,elevation:0,alignSelf:'center',justifyContent:'center',alignItems:'center',width:'95%',alignContent:'center'},
@@ -222,7 +227,7 @@ blueContainer:{backgroundColor:'#17AAF1'},
     fontSize: CONSTANTS.UI_CONSTANTS.BTN_TEXT_SIZE,
     color: CONSTANTS.UI_CONSTANTS.BTN_TEXT_COLOR,
     backgroundColor: 'transparent',
-    fontFamily: CONSTANTS.UI_CONSTANTS.BTN_TEXT_FONTFAMILY,
+   // fontFamily: CONSTANTS.UI_CONSTANTS.BTN_TEXT_FONTFAMILY,
     alignSelf: 'center',
     shadowColor: 'rgba(0,0,0, 1)',
     shadowOffset: {

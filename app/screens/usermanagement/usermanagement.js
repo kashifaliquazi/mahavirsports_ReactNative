@@ -8,6 +8,10 @@ import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
 import globalStyles from "../../assets/css/globalstyles";
 import CheckBox from '@react-native-community/checkbox';
+import MyButton from "../../components/mybutton/mybutton";
+import FontAwesome, {Icons,SolidIcons, RegularIcons, BrandIcons} from 'react-native-fontawesome';
+
+import GradientButton from '../../components/gradientbutton/gradientButton';
 class UserManagement extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +36,7 @@ class UserManagement extends Component {
   }
 
   fetchUsers = (user, filers = {}) => {
+    //alert("called")
     this.props.dispatch({ type: 'SHOW_LOADER' });
     let userid = '';
     let role = '';
@@ -82,7 +87,9 @@ class UserManagement extends Component {
     this.getUsers();
     this.props.navigation.setOptions({
       headerRight: () => (
-        <Button style={{ backgroundColor: 'yellow' }} onPress={() => this.setState({ filterModalVisible: true })} title="Filter" />
+        <TouchableOpacity color ="blue" style={{right:12 }} onPress={() => this.setState({ filterModalVisible: true })} title="Filter" >
+                      <FontAwesome style={{fontSize: 25,color:"white"}} icon={SolidIcons.filter} />
+           </TouchableOpacity>
       ),
     });
   }
@@ -182,9 +189,10 @@ class UserManagement extends Component {
           }}
         >
           <View style={modelStyle.centeredView}>
-            <View style={modelStyle.modalView}>
-
-              <Text style={modelStyle.modalText}>Add Service Boy</Text>
+            <View style={[modelStyle.modalView,{height:viewportHeight-viewportHeight*0.55}]}>
+            <View style={[{paddingVertical:10}]}>
+              <Text style={globalStyles.labelText}>Add Service Boy</Text>
+              </View>
               <View style={[{ padding: 4, justifyContent: 'center', alignItems: 'center', margin: 3, width: '90%' }]}>
                 <TextInput underlineColorAndroid='transparent'
                   placeholder='Name'
@@ -224,29 +232,23 @@ class UserManagement extends Component {
                 />
               </View>
 
+             
               <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', margin: 10 }}>
 
-                <Button
-                  style={[modelStyle.button, modelStyle.buttonClose]}
-                  onPress={() => {
+                  
+              <MyButton
+    title="cancel"
+    color="grey"
+       onPress={() => {this.setModalVisible(!modalVisible)}
+       }/>
 
-                    this.setModalVisible(!modalVisible)
-                  }
-                  }
-                  title="cancel"
-                >
+<MyButton
+    title="Create User"
+    color={CONSTANTS.UI_CONSTANTS.SECONDARY_COLOR}
+       onPress={() => {this.createServiceBoy()}
+       }/>
 
-                </Button>
-                <Button
-                  style={[modelStyle.button, modelStyle.buttonClose]}
-                  onPress={() => {
-                    this.createServiceBoy();
-
-                  }}
-                  title="Create User"
-                >
-
-                </Button>
+               
               </View>
             </View>
 
@@ -271,9 +273,11 @@ class UserManagement extends Component {
           }}
         >
           <View style={modelStyle.centeredView}>
-            <View style={modelStyle.modalView}>
-
-              <Text style={modelStyle.modalText}>Apply Filters</Text>
+            <View style={[modelStyle.modalView,,{height:viewportHeight-viewportHeight*0.5}]}>
+            <View style={[{paddingVertical:10}]}>
+              <Text style={globalStyles.labelText}>Filters</Text>
+              </View>
+              
               <View style={[{ padding: 4, justifyContent: 'center', alignItems: 'center', margin: 3, width: '90%' }]}>
 
                 <TextInput underlineColorAndroid='transparent'
@@ -288,7 +292,7 @@ class UserManagement extends Component {
                   value={this.state.userid}
                 />
               </View>
-              <View style={[{ padding: 4, alignItems: 'flex-start', margin: 3, width: '90%' }]}>
+              <View style={[{ padding: 4, alignItems: 'flex-start', margin: 3, width: '90%',backgroundColor:"red" }]}>
                 <View style={[globalStyles.fullRow, { alignItems: 'flex-start' }]}>
                   <Text style={globalStyles.textBoxLables}>User Type</Text>
                   <View style={{ width: '100%', alignSelf: 'flex-start', flexDirection: 'row', margin: 5 }}>
@@ -297,11 +301,11 @@ class UserManagement extends Component {
                       value={this.state.isuser}
                       onValueChange={(isuser) => this.setState({ isuser })}
                     />
-                    <View style={{ marginTop: -7 }}>
+                    <View style={{ marginTop: -7 ,marginHorizontal:7}}>
                       <Text style={globalStyles.textBoxLables}>Users</Text>
                     </View>
                   </View>
-                  <View style={{ width: '100%', alignSelf: 'flex-start', flexDirection: 'row', margin: 10 }}>
+                  <View style={{ width: '100%', alignSelf: 'flex-start', flexDirection: 'row', margin: 5 }}>
 
                     <CheckBox
                       disabled={false}
@@ -309,7 +313,7 @@ class UserManagement extends Component {
                       onValueChange={(isadmin) => this.setState({ isadmin })}
                     />
 
-                    <View style={{ marginTop: -7 }}>
+                    <View style={{ marginTop: -7,marginHorizontal:7 }}>
                       <Text style={globalStyles.textBoxLables}>Service man</Text>
                     </View>
                   </View>
@@ -319,8 +323,35 @@ class UserManagement extends Component {
               </View>
 
 
-
               <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', margin: 10 }}>
+
+                  
+<MyButton
+title="cancel"
+color="grey"
+onPress={() => {this.setState({ filterModalVisible: false })}
+}/>
+
+<MyButton
+title="Apply"
+color={CONSTANTS.UI_CONSTANTS.SECONDARY_COLOR}
+onPress={() => {
+  let filter = {};
+  filter.userid = this.state.userid;
+
+  if (this.state.isuser && !this.state.isadmin) {
+    filter.role = 'USER';
+  } else if (!this.state.isuser && this.state.isadmin) {
+    filter.role = 'SERVICEUSER';
+  }
+  this.fetchUsers(this.user, filter)
+}
+}/>
+
+ 
+</View>
+
+              {/* <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', margin: 10 }}>
                 <Pressable
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() => {
@@ -349,7 +380,7 @@ class UserManagement extends Component {
                 >
                   <Text style={modelStyle.textStyle}>Apply</Text>
                 </Pressable>
-              </View>
+              </View> */}
             </View>
 
           </View>
@@ -365,7 +396,7 @@ class UserManagement extends Component {
 
         backgroundColor: 'white',
       }}>
-
+       
         <View >
           {this.getModel()}
           {this.getFilterModel()}
@@ -429,6 +460,20 @@ class UserManagement extends Component {
 
 
 const modelStyle = StyleSheet.create({
+  buttonLargeContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10
+  },
+primaryButton: {
+    backgroundColor: '#FF0017',
+  },
+buttonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold'
+  },
   centeredView: {
     // height:viewportHeight - viewportHeight*0.2,
     // width:viewportWidth -viewportWidth *0.1,

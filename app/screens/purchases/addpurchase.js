@@ -8,6 +8,8 @@ import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
 import globalStyles from "../../assets/css/globalstyles";
 import CheckBox from '@react-native-community/checkbox';
+import GradientButton from '../../components/gradientbutton/gradientButton';
+import KeyboardHandling from "../../components/keyboardhandling/keyboardhandling";
 class UserManagement extends Component {
     constructor(props){
         super(props);
@@ -386,24 +388,18 @@ class UserManagement extends Component {
     }
   render() {
     return (
-      <SafeAreaView
-    edges={[ 'left', 'right' ]}
-    style= {{
-      backgroundColor:'white',
-    }}
-   >
-      <KeyboardAvoidingView behavior="position" style= {{
-        backgroundColor:'white',
-      }}>
-         <ScrollView
-        bounces={false}
-       // contentContainerStyle={commonStyles.scrollContainer}
-        contentInsetAdjustmentBehavior="always"
-        overScrollMode="always"
-        showsVerticalScrollIndicator={true}
-    //    style={commonStyles.scroll}
-      >
-      <View style= {{backgroundColor:'white'}}>
+      <KeyboardHandling>
+         <View style={{
+              flex: 1,
+              
+             // minHeight:viewportHeight
+            }}>
+         <View style={{ width: "45%",paddingHorizontal:"4%",paddingVertical:20 }}>
+        <Text style={[globalStyles.labelText, { color: "#0E86D4", paddingHorizontal: 0 }]}>Add Purchase</Text>
+      </View>
+      <View style= {{backgroundColor:'white',minHeight:viewportHeight,width:"95%",alignContent:"center",alignItems:"center"}}>
+
+     
         {/* {this.getModel()}
         {this.getFilterModel()} */}
                  <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'95%'}]}>
@@ -446,7 +442,7 @@ class UserManagement extends Component {
           <TextInput underlineColorAndroid='transparent'
           placeholder='Purchase Details'
           multiline={true}
-          style={[globalStyles.modelText,this.getPurchasedetailsStyles()]}
+          style={[globalStyles.modelText,this.getPurchasedetailsStyles(),{height:120}]}
           onChangeText={(purchasedetails) => {
             this.setState({purchasedetails});
             this.setState({purchasedetailsDirty : false});
@@ -459,7 +455,7 @@ class UserManagement extends Component {
           <TextInput underlineColorAndroid='transparent'
           placeholder='Comment'
           multiline={true}
-          style={[globalStyles.modelText,this.getCommentStyles()]}
+          style={[globalStyles.modelText,this.getCommentStyles(),{height:120}]}
           onChangeText={(comment) => {
             this.setState({comment});
             this.setState({commentDirty : false});
@@ -468,23 +464,18 @@ class UserManagement extends Component {
             value={this.state.comment}
           />
           </View>
-          <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
-                <Pressable
-                  style={[modelStyle.button, modelStyle.buttonClose]}
-                  onPress={() =>{ 
-                    this.createPurcahse();
-                   
-                  }}>
-                  <Text style={modelStyle.textStyle}>Create Purchse</Text>
-                </Pressable>
-              </View>
+          <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Create Purchse'}
+          onPress={() => this.createPurcahse()} />
+   <View style={{
+        flexDirection: "column",
+        paddingVertical: 7
+      }}></View>
+        
              
         
       </View>
-      
-      </ScrollView>
-    </KeyboardAvoidingView>
-    </SafeAreaView>
+      </View>
+      </KeyboardHandling>
     );
   }
 }

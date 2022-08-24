@@ -126,7 +126,11 @@ class VerifyUser extends Component {
 }}/>
   <TouchableOpacity style={{marginTop:10, 
       width:"100%",
-      alignSelf:'center'}} onPress={()=> { this.props.navigation.navigate('VerifyUser');}}>
+      alignSelf:'center'}} onPress={()=> {
+
+       // alert("tap")
+         this.props.navigation.navigate('Login');
+         }}>
     <Text style={styles.forgotText}>Login</Text></TouchableOpacity>
 </View>
         

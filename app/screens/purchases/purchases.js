@@ -7,6 +7,8 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
 import globalStyles from "../../assets/css/globalstyles"
+import MyButton from "../../components/mybutton/mybutton";
+import FontAwesome, {Icons,SolidIcons, RegularIcons, BrandIcons} from 'react-native-fontawesome';
 class Purchases extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +65,10 @@ class Purchases extends Component {
     this.getPurchases();
     this.props.navigation.setOptions({
       headerRight: () => (
-        <Button style ={{backgroundColor:'yellow'}} onPress={() => this.setState({filterModalVisible:true})} title="Filter" />
+        <TouchableOpacity color ="blue" style={{right:12 }} onPress={() => this.setState({ filterModalVisible: true })} title="Filter" >
+        <FontAwesome style={{fontSize: 25,color:"white"}} icon={SolidIcons.filter} />
+</TouchableOpacity>
+        // <Button style ={{backgroundColor:'yellow'}} onPress={() => this.setState({filterModalVisible:true})} title="Filter" />
       ),
     });
   }
@@ -167,8 +172,10 @@ class Purchases extends Component {
         >
           <View style={modelStyle.centeredView}>
             <View style={modelStyle.modalView}>
+            <View style={[{paddingVertical:10}]}>
+              <Text style={globalStyles.labelText}>Apply Filters</Text>
+              </View>
 
-              <Text style={modelStyle.modalText}>Apply Filters</Text>
               <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
                 
                 <TextInput underlineColorAndroid='transparent'
@@ -218,7 +225,24 @@ class Purchases extends Component {
         </View>
         
 
-        
+        <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', margin: 10 }}>
+
+                  
+              <MyButton
+    title="cancel"
+    color="grey"
+       onPress={() => { this.setState({filterModalVisible:false})}
+       }/>
+
+<MyButton
+    title="Apply"
+    color={CONSTANTS.UI_CONSTANTS.SECONDARY_COLOR}
+       onPress={() => { this.fetchPurchases(this.user)}
+       }/>
+       </View>
+
+               
+              {/* </View>
         <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
             <Pressable
                 style={[modelStyle.button, modelStyle.buttonClose]}
@@ -241,7 +265,7 @@ class Purchases extends Component {
               >
                 <Text style={modelStyle.textStyle}>Apply</Text>
               </Pressable>
-            </View>
+            </View> */}
             </View>
            
           </View>
