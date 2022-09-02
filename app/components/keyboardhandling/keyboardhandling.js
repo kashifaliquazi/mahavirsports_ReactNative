@@ -21,13 +21,7 @@ class KeyboardHandling extends Component {
           backgroundColor: 'white',
         }}
       >
-        <KeyboardAvoidingView 
-        behavior="padding" 
-        
-      //   keyboardVerticalOffset={-500}
-        style={{
-          backgroundColor: 'white',
-        }}>
+        <KeyboardAvoidingView behavior="padding" enabled={false} keyboardVerticalOffset= {20}>
           <ScrollView
             bounces={false}
             // contentContainerStyle={commonStyles.scrollContainer}
@@ -36,7 +30,7 @@ class KeyboardHandling extends Component {
            // showsVerticalScrollIndicator={true}
           //    style={commonStyles.scroll}
           >
-        {this.props.children}
+            {this.props.children}
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

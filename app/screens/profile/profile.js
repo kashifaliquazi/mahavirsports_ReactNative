@@ -49,7 +49,7 @@ class Profile extends Component {
     }
   }
   componentDidMount() {
-
+    
     this.getUsers();
   }
   logout = async () => {

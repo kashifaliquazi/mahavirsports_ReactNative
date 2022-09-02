@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "694676813645",
+    "project_id": "mahavirsports-2fb86",
+    "storage_bucket": "mahavirsports-2fb86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694676813645:android:98bb79b23a4e814b2ea904",
+        "android_client_info": {
+          "package_name": "com.mahavirsports"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694676813645-k5v93c2eu13l2lp2q62o9kkpg9trhik9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAidq9jlXszpCGnrM83uxa8b2zgqnMFqFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694676813645-k5v93c2eu13l2lp2q62o9kkpg9trhik9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

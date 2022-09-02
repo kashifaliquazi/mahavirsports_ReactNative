@@ -26,8 +26,10 @@ import { AsyncStorage } from 'react-native';
 import { Provider } from 'react-redux';
 import store from './app/config/store';
 import Loader from './app/components/loader/loader'
-import * as CONSTANTS from './app/utils/constant'
+import * as CONSTANTS from './app/utils/constant';
+import { navigationRef } from './RootNavigation';
 import FontAwesome, {Icons,SolidIcons, RegularIcons, BrandIcons} from 'react-native-fontawesome';
+// import PubNubReact from 'pubnub-react';
 function TicketManagementComponent(){
   return(   <Stack.Navigator initialRouteName="TicketManagement">
   <Stack.Screen 
@@ -158,6 +160,12 @@ class TabMenu extends Component {
   constructor(props) {
     super(props);
     this.state = { menu:ADMIN_MENU };
+
+    // this.pubnub = new PubNubReact({
+    //   publishKey: 'pub-c-b1ef8bb6-4a2e-4c4b-9976-4168d266d16e',
+    //   subscribeKey: 'sub-c-3b3b0e8a-1dbd-11e7-aca9-02ee2ddab7fe'
+    // }); 
+    // this.pubnub.init(this);
   }
   getUserDataFromStorage = async () =>{
 
@@ -241,13 +249,22 @@ function Menu() {
 
 
 
+class App extends Component {
+constructor(props) {
+    super(props);
 
-function App() {
-  return (
-    <Provider store={ store }>
+    // this.pubnub = new PubNubReact({
+    //   publishKey: 'pub-c-b1ef8bb6-4a2e-4c4b-9976-4168d266d16e',
+    //   subscribeKey: 'sub-c-3b3b0e8a-1dbd-11e7-aca9-02ee2ddab7fe'
+    // }); 
+    // this.pubnub.init(this);
+  }
+  render() {
+    return (
+<Provider store={ store }>
        {/* <Login></Login> */}
        <Loader/>
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
      
       <Stack.Navigator tialRouteName="Login"
       
@@ -265,7 +282,34 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
-  );
+    );
+  }
+
 }
+// function App() {
+//   return (
+//     <Provider store={ store }>
+//        {/* <Login></Login> */}
+//        <Loader/>
+//     <NavigationContainer>
+     
+//       <Stack.Navigator tialRouteName="Login"
+      
+//       screenOptions={{
+//         contentStyle:{
+//        //   backgroundColor:'red'
+//         },
+//        // headerStyle: { elevation: 0 },
+//         cardStyle: { }
+//     }}>
+//         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+//         <Stack.Screen options={{ headerShown: false }}  name="SignUp" component={SignUp} />
+//         <Stack.Screen options={{ headerShown: false }}  name="VerifyUser" component={VerifyUser} />
+//         <Stack.Screen options={{ headerShown: false }} name="Home" component={TabMenu} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//     </Provider>
+//   );
+// }
 
 export default App;
