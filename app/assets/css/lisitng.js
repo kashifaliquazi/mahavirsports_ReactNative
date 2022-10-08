@@ -200,14 +200,17 @@ buttonText: {
 
   contentText: {
     // fontSize: '1.17rem',
-    color: 'black',
+    color: 'grey',
+    marginTop:3,
     // //fontFamily: 'unisansregular',
     paddingRight:20
   },
 
   tileTitleText: {
     // fontSize: '1rem',
-    color: '#8DC440',
+    //color: '#8DC440',
+    color:"black",
+    fontWeight: 'bold'
     // fontFamily: 'UniSansSemiBold'
   },
 

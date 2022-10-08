@@ -8,7 +8,9 @@ import * as CONSTANTS from '../../utils/constant';
 import GradientButton from '../../components/gradientbutton/gradientButton';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 import KeyboardHandling from "../../components/keyboardhandling/keyboardhandling";
-class Profile extends Component {
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+class CloseTicket extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -144,52 +146,7 @@ class Profile extends Component {
         console.error(error);
       });
   }
-  getProfileView= () =>{
-    return (<View >
-      {/* <View style={{
-        width: "90%",
-        height: 30
-      }}></View> */}
-      <View>
-      <View style={{ width: "45%",paddingHorizontal:"4%", paddingVertical:"5%" }}>
-        <Text style={[globalStyles.labelText, { color: "#0E86D4", paddingHorizontal: 0 }]}>User Profile</Text>
-      </View>
-      <View style={{ 
-      //  width:"90%",
-      paddingHorizontal:"8%",
-         }}>
-        <View style={{
-          flexDirection: "row",
-          paddingVertical: 7
-          //  marginTop:7
-        }}>
-          <View style={{ width: "45%" }}>
-            <Text style={[globalStyles.labelText, { color: "grey" }]}>User Id</Text>
-          </View>
-          <Text style={[globalStyles.labelText, { color: "black", }]}>1</Text>
-        </View>
-        <View style={{
-          flexDirection: "row",
-          paddingVertical: 7
-        }}>
-          <View style={{ width: "45%" }}>
-            <Text style={[globalStyles.labelText, { color: "grey" }]}>Name</Text>
-          </View>
-          <Text style={[globalStyles.labelText, { color: "black", }]}>Kashif Ali</Text>
-        </View>
-        <View style={{
-          flexDirection: "row",
-          paddingVertical: 7
-        }}>
-          <View style={{ width: "45%" }}>
-            <Text style={[globalStyles.labelText, { color: "grey" }]}>Mobile No.</Text>
-          </View>
-          <Text style={[globalStyles.labelText, { color: "black", }]}>9098580784</Text>
-        </View>
-      </View>
-      </View>
-    </View>);
-  }
+
   getChangePasswordView = ()=>{
     return (<View
       style={{
@@ -201,15 +158,14 @@ class Profile extends Component {
     justifyContent:"center",
     alignContent:"center",}}
     >
-      <View style={globalStyles.separator} />
       </View>
       <View style={{ width: "90%",paddingHorizontal:"4%",paddingVertical:"5%" }}>
-        <Text style={[globalStyles.labelText, { color: "#0E86D4", paddingHorizontal: 0 }]}>Change Password</Text>
+        <Text style={[globalStyles.labelText, { color: "#0E86D4", paddingHorizontal: 0 }]}>Mark Ticket Completed</Text>
       </View>
       <View style={{ paddingHorizontal:"8%" }}>
       <View style={[{ padding: 4, justifyContent: 'center', alignItems: 'center', margin: 3, width: '95%' }]}>
         <TextInput underlineColorAndroid='transparent'
-          placeholder='Existing Password'
+          placeholder='Verification Code'
           eyboardType='numeric'
           style={[globalStyles.modelText, this.getCurrentPasswordStyle()]}
           onChangeText={(currentpassword) => {
@@ -221,8 +177,9 @@ class Profile extends Component {
       </View>
       <View style={[{ padding: 4, justifyContent: 'center', alignItems: 'center', margin: 3, width: '95%' }]}>
         <TextInput underlineColorAndroid='transparent'
-          placeholder='New Password'
-          style={[globalStyles.modelText, this.getNewPasswordStyle()]}
+          placeholder='Comment'
+          multiline={true}
+          style={[globalStyles.modelText, this.getNewPasswordStyle(), { height: 120 }]}
           onChangeText={(newpassword) => {
             this.setState({ newpassword });
             this.setState({ newpasswordDirty: false });
@@ -231,33 +188,30 @@ class Profile extends Component {
           value={this.state.newpassword}
         />
       </View>
-      <View style={[{ padding: 4, justifyContent: 'center', alignItems: 'center', margin: 3, width: '95%' }]}>
-        <TextInput underlineColorAndroid='transparent'
-          placeholder='Repeat Password'
-          style={[globalStyles.modelText, this.getRepeatPasswordStyle()]}
-          onChangeText={(repeatpassword) => {
-            this.setState({ repeatpassword });
-            this.setState({ repeatpasswordDirty: false });
-            // this.setState({isUserNameEmpty : false});
-          }}
-          value={this.state.repeatpassword}
-        />
-      </View>
+
       <View style={{
         flexDirection: "column",
         paddingVertical: 7
       }}>
-        <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Change Password'}
-          onPress={() => this.changePassword()} />
+        <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Attach Media'}
+          onPress={() => {
+            launchImageLibrary({}, (data)=>{
+              alert(JSON.stringify(data));
+            });
+          }} />
    <View style={{
         flexDirection: "column",
         paddingVertical: 7
       }}>
-        <GradientButton color={CONSTANTS.UI_CONSTANTS.GREY_COLORS} type={'BTN'} text={'Logout'}
+        <GradientButton color={CONSTANTS.UI_CONSTANTS.GREY_COLORS} type={'BTN'} text={'Close Ticket'}
           style={{
             color: "grey"
           }}
-          onPress={() => this.logout()} />
+          onPress={() => {
+            launchCamera({}, (data)=>{
+              alert(JSON.stringify(data));
+            });
+          }} />
 
       </View>
 </View>
@@ -272,7 +226,6 @@ class Profile extends Component {
               
              // minHeight:viewportHeight
             }}>
-              {this.getProfileView()}
               {this.getChangePasswordView()}
               
             </View>
@@ -282,4 +235,4 @@ class Profile extends Component {
   }
 }
 
-export default connect()(Profile);
+export default connect()(CloseTicket);

@@ -10,7 +10,7 @@ import globalStyles from "../../assets/css/globalstyles";
 import CheckBox from '@react-native-community/checkbox';
 import GradientButton from '../../components/gradientbutton/gradientButton';
 import MyButton from "../../components/mybutton/mybutton";
-class TicketDetails extends Component {
+class ServiceTicketDetails extends Component {
     constructor(props){
         super(props);
         this.state= {
@@ -456,9 +456,20 @@ getServiceBoyRow(assigneedetails){
             marginVertical:5
             }}
         >
-        <Text style={globalStyles.labelText}>Assignee</Text>
+      
       </View>
-        {this.renderAssigneeDetails()}
+      <View style={{
+        flexDirection: "column",
+        paddingVertical: 7
+      }}>
+        <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Mark completed'}
+          style={{
+            color: "grey"
+          }}
+          onPress={() =>   this.props.navigation.navigate('CloseTicket')} />
+
+      </View>
+        {/* {this.renderAssigneeDetails()} */}
         
         {/* <View style={{
         paddingVertical: 7,
@@ -529,4 +540,4 @@ const modelStyle = StyleSheet.create({
 });
 
 
-export default connect()(TicketDetails);
+export default connect()(ServiceTicketDetails);

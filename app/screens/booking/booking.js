@@ -71,7 +71,7 @@ class Booking extends Component {
     }
 
 
-    createServiceBoy = () => {
+    createTicket = () => {
       let submutForm = true;
       if(this.state.name == ''){
         this.setState({isNameEmpty : true});
@@ -224,9 +224,9 @@ class Booking extends Component {
        }/>
 
 <MyButton
-    title="Create User"
+    title="Create Ticket"
     color={CONSTANTS.UI_CONSTANTS.SECONDARY_COLOR}
-       onPress={() => {this.createServiceBoy()}
+       onPress={() => {this.createTicket()}
        }/>
 
                
@@ -245,7 +245,7 @@ class Booking extends Component {
                 <Pressable
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
-                    this.createServiceBoy();
+                    this.createTicket();
                    
                   }}
                 >
@@ -260,7 +260,48 @@ class Booking extends Component {
         </View>
       );
     }
+  renderTickets =(item, index, separators) =>{
+    return (<View style={styles.tileWrapper}>
+      <View style={styles.tileContainer}>
+       
+      <View style={styles.tileRow}>
+          <View style={styles.tileRowInner}>
+            <Text style={styles.tileTitleText}>Ticket Id</Text>
+            <Text style={styles.contentText}>{item.ticketid==undefined?CONSTANTS.BLANK_FIELD:item.ticketid}</Text>
+          </View>
+          
+          <View style={styles.buttonRow}>
+
+            <TouchableOpacity activeOpacity={0.8} style={[styles.tileIcon, { width: 112, height: 42, }]}
+              onPress={() => {
+                this.setState({ modalVisible: true, purchaseid: item.purchaseid });
+
+              }}
+            >
+              <Text style={styles.tileTitleText}>Close Ticket</Text>
+            </TouchableOpacity>
+          </View>
+      </View>
+         
+          <View style={styles.tileRow}>
+         
+                      
+          <View style={{marginVertical:10}}>
+                <Text style={styles.tileTitleText}>Purchase Id</Text>
+                <Text style={styles.contentText}>{item.purchaseid}</Text>
+              </View>
   
+                 <View style={{marginVertical:10}}>
+           <Text style={styles.tileTitleText}>Assignee Contact</Text>
+           <Text style={styles.contentText}>{item.assigneecontact}</Text>
+         </View>
+
+          </View> 
+   
+  
+          </View>
+          </View>)
+  }
   render() {
     return (
       <View style= {{
@@ -292,56 +333,8 @@ class Booking extends Component {
   data={this.state.user}
   renderItem={({ item, index, separators }) => (
 
+this.renderTickets(item, index, separators)
 
-<View style={styles.tileWrapper}>
-    <View style={styles.tileContainer}>
-     
-    <View style={styles.tileRow}>
-        <View style={styles.tileRowInner}>
-          <Text style={styles.tileTitleText}>Name</Text>
-          <Text style={styles.contentText}>{item.name==undefined?CONSTANTS.BLANK_FIELD:item.name}</Text>
-        </View>
-        
-        <View style={styles.buttonRow}>
-        
-                <TouchableOpacity activeOpacity={0.8} style={styles.tileIcon}
-                onPress={()=>{
-
-                 }}
-                >
-
-                
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8} style={styles.tileIcon}
-                onPress={()=>{
-  
-                 }}
-                >
-
-                  </TouchableOpacity></View>
-    </View>
-       
-        <View style={styles.tileRow}>
-       
-                    
-        <View style={{marginVertical:10}}>
-              <Text style={styles.tileTitleText}>User ID</Text>
-              <Text style={styles.contentText}>{item.userid}</Text>
-            </View>
-
-               <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Mobile no</Text>
-         <Text style={styles.contentText}>{item.mobileno}</Text>
-       </View>
-       <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Role</Text>
-         <Text style={styles.contentText}>{item.role}</Text>
-       </View>
-        </View> 
- 
-
-        </View>
-        </View>
         )}
 />
       </View>

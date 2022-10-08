@@ -33,7 +33,7 @@ class Purchases extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-       // alert(JSON.stringify(responseJson))
+        alert(JSON.stringify(responseJson))
         this.props.dispatch({ type: 'HIDE_LOADER' });
         if (responseJson.success) {
            this.setState({user:responseJson.success})
@@ -186,7 +186,55 @@ class Purchases extends Component {
         </View>
       );
     }
-  
+  renderPurchases = (item, index, separators)=>{
+    return (<View style={styles.tileWrapper}>
+      <View style={styles.tileContainer}>
+        <View style={styles.tileRow}>
+          <View style={styles.tileRowInner}>
+            <Text style={styles.tileTitleText}>Bill Id</Text>
+            <Text style={styles.contentText}>{item.billid == undefined ? CONSTANTS.BLANK_FIELD : item.billid}</Text>
+          </View>
+
+          <View style={styles.buttonRow}>
+
+            <TouchableOpacity activeOpacity={0.8} style={[styles.tileIcon, { width: 112, height: 42, }]}
+              onPress={() => {
+                this.setState({ modalVisible: true, purchaseid: item.purchaseid });
+
+              }}
+            >
+              <Text style={styles.tileTitleText}>Raise Ticket</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.tileRow}>
+
+
+          <View style={{ marginVertical: 10 }}>
+            <Text style={styles.tileTitleText}>purchaseid ID</Text>
+            <Text style={styles.contentText}>{item.purchaseid}</Text>
+          </View>
+
+          <View style={{ marginVertical: 10 }}>
+            <Text style={styles.tileTitleText}>Purchased Date</Text>
+            <Text style={styles.contentText}>{item.purchasedate == undefined ? CONSTANTS.BLANK_FIELD : item.purchasedate}</Text>
+          </View>
+        </View>
+        <View style={styles.tileRow}>
+
+
+         
+          <View style={{ marginVertical: 10 }}>
+            <Text style={styles.tileTitleText}>Product Details</Text>
+            <Text style={styles.contentText}>{item.productdetails == undefined ? CONSTANTS.BLANK_FIELD : item.productdetails}</Text>
+          </View>
+        </View>
+
+
+      </View>
+    </View>)
+  }
   render() {
     return (
       <View style= {{
@@ -201,52 +249,9 @@ class Purchases extends Component {
       <FlatList
   data={this.state.user}
   renderItem={({ item, index, separators }) => (
+this.renderPurchases(item, index, separators)
 
 
-<View style={styles.tileWrapper}>
-    <View style={styles.tileContainer}>
-     
-    <View style={styles.tileRow}>
-        <View style={styles.tileRowInner}>
-          <Text style={styles.tileTitleText}>Bill Id</Text>
-          <Text style={styles.contentText}>{item.billid==undefined?CONSTANTS.BLANK_FIELD:item.billid}</Text>
-        </View>
-        
-        <View style={styles.buttonRow}>
-        
-                <TouchableOpacity activeOpacity={0.8} style={[styles.tileIcon,{width: 112,height: 42,}]}
-                onPress={()=>{
-                  this.setState({modalVisible:true,purchaseid:item.purchaseid});
-                  
-                 }}
-                >
-
-                <Text style={styles.tileTitleText}>Bill Id</Text>
-                </TouchableOpacity>
-                </View>
-    </View>
-       
-        <View style={styles.tileRow}>
-       
-                    
-        <View style={{marginVertical:10}}>
-              <Text style={styles.tileTitleText}>purchaseid ID</Text>
-              <Text style={styles.contentText}>{item.purchaseid}</Text>
-            </View>
-
-               <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Mobile no</Text>
-         <Text style={styles.contentText}>{item.mobileno}</Text>
-       </View>
-       <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Role</Text>
-         <Text style={styles.contentText}>{item.role}</Text>
-       </View>
-        </View> 
- 
-
-        </View>
-        </View>
         )}
 />
       </View>

@@ -306,33 +306,9 @@ class ServiceUserTicketManagement extends Component {
   renderItem={({ item, index, separators }) => (
 
 
-<TouchableOpacity activeOpacity={0.9}  style={styles.tileWrapper} onPress ={()=>  this.props.navigation.navigate('TicketDetails')}>
+<TouchableOpacity activeOpacity={0.9}  style={styles.tileWrapper} onPress ={()=>  this.props.navigation.navigate('TicketDetailsService',{ ticket: item })}>
     <View style={styles.tileContainer}>
-{/*      
-    <View style={styles.tileRow}>
-        <View style={styles.tileRowInner}>
-          <Text style={styles.tileTitleText}>Name</Text>
-          <Text style={styles.contentText}>{item.name==undefined?CONSTANTS.BLANK_FIELD:item.name}</Text>
-        </View>
-        
-        <View style={styles.buttonRow}>
-        
-                <TouchableOpacity activeOpacity={0.8} style={styles.tileIcon}
-                onPress={()=>{
 
-                 }}
-                >
-
-                
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8} style={styles.tileIcon}
-                onPress={()=>{
-  
-                 }}
-                >
-
-                  </TouchableOpacity></View>
-    </View> */}
     <View style={styles.tileRow}>
        
                     

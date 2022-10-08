@@ -19,6 +19,8 @@ import TicketManagement from "./app/screens/ticketmanagement/ticketmanagement"
 import ServiceTicketManagement from "./app/screens/ticketmanagement/serviceticketmanagement"
 import AddPurchase from "./app/screens/purchases/addpurchase"
 import TicketDetails from "./app/screens/ticketmanagement/ticketdetails"
+import ServiceTicketDetails from "./app/screens/ticketmanagement/serviceticketdetails"
+import CloseTicket from "./app/screens/ticketmanagement/closeticket"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppContext } from "./context"
 const Tab = createBottomTabNavigator();
@@ -71,6 +73,28 @@ function ServicePuchaseManagementComponent(){
     }}
   name="Purchases" component={ServiceUserPurchases} />
   <Stack.Screen options={{ headerShown: true,title: '', }} name="AddPurchase" component={AddPurchase} />
+</Stack.Navigator>
+)
+}
+function ServiceTicketManagementComponent(){
+  return(   <Stack.Navigator tialRouteName="Tickets">
+  <Stack.Screen 
+  //options={{ headerShown: true }}
+    options={{
+    //  unmountOnBlur: true,
+      title: 'Tickets',
+      headerStyle: {
+        backgroundColor: "#0E86D4",
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontSize:viewportWidth*0.06,
+        fontWeight: 'bold',
+      },
+    }}
+  name="Tickets" component={ServiceTicketManagement} />
+  <Stack.Screen options={{ headerShown: true,title: '', }} name="TicketDetailsService" component={ServiceTicketDetails} />
+  <Stack.Screen options={{ headerShown: true,title: '', }} name="CloseTicket" component={CloseTicket} />
 </Stack.Navigator>
 )
 }
@@ -145,7 +169,8 @@ const SERVICE_MENU = [{
 },
   {
     "name": "Tickets",
-    "component": ServiceTicketManagement,
+    "component": ServiceTicketManagementComponent,
+    "showHeader": false,
     "icon": SolidIcons.suitcase
   },
   {
@@ -159,7 +184,7 @@ const Stack = createNativeStackNavigator();
 class TabMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = { menu:ADMIN_MENU };
+    this.state = { menu:USER_MENU };
 
     // this.pubnub = new PubNubReact({
     //   publishKey: 'pub-c-b1ef8bb6-4a2e-4c4b-9976-4168d266d16e',
@@ -253,11 +278,7 @@ class App extends Component {
 constructor(props) {
     super(props);
 
-    // this.pubnub = new PubNubReact({
-    //   publishKey: 'pub-c-b1ef8bb6-4a2e-4c4b-9976-4168d266d16e',
-    //   subscribeKey: 'sub-c-3b3b0e8a-1dbd-11e7-aca9-02ee2ddab7fe'
-    // }); 
-    // this.pubnub.init(this);
+
   }
   render() {
     return (

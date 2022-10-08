@@ -33,7 +33,7 @@ class Purchases extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-       // alert(JSON.stringify(responseJson))
+        alert(JSON.stringify(responseJson))
         this.props.dispatch({ type: 'HIDE_LOADER' });
         if (responseJson.success) {
            this.setState({user:responseJson.success})
@@ -58,8 +58,8 @@ class Purchases extends Component {
     }
 
     componentDidMount(){
-      
-   //  this.getPurchases();
+      alert("hello")
+     this.getPurchases();
     }
 
 
