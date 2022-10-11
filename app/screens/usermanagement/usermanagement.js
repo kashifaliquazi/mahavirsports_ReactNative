@@ -189,7 +189,7 @@ class UserManagement extends Component {
           }}
         >
           <View style={modelStyle.centeredView}>
-            <View style={[modelStyle.modalView,{height:viewportHeight-viewportHeight*0.55}]}>
+            <View style={[modelStyle.modalView,{}]}>
             <View style={[{paddingVertical:10}]}>
               <Text style={globalStyles.labelText}>Add Service Boy</Text>
               </View>
@@ -273,7 +273,7 @@ class UserManagement extends Component {
           }}
         >
           <View style={modelStyle.centeredView}>
-            <View style={[modelStyle.modalView,,{height:viewportHeight-viewportHeight*0.5}]}>
+            <View style={[modelStyle.modalView,,{}]}>
             <View style={[{paddingVertical:10}]}>
               <Text style={globalStyles.labelText}>Filters</Text>
               </View>
@@ -292,7 +292,7 @@ class UserManagement extends Component {
                   value={this.state.userid}
                 />
               </View>
-              <View style={[{ padding: 4, alignItems: 'flex-start', margin: 3, width: '90%',backgroundColor:"red" }]}>
+              <View style={[{ padding: 4, alignItems: 'flex-start', margin: 3, width: '90%' }]}>
                 <View style={[globalStyles.fullRow, { alignItems: 'flex-start' }]}>
                   <Text style={globalStyles.textBoxLables}>User Type</Text>
                   <View style={{ width: '100%', alignSelf: 'flex-start', flexDirection: 'row', margin: 5 }}>

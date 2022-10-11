@@ -170,9 +170,7 @@ assignTicket = () => {
     });
 }
 getServiceBoyRow(assigneedetails){
- return ( <View style={[styles.tileWrapper,{
-  // backgroundColor:"blue"
- }]}>
+ return ( <View style={[styles.tileWrapper,{width:"90%",backgroundColor:"red"}]}>
    <TouchableOpacity
    onPress={()=>{
     this.setState({assigneedetails:assigneedetails,filterModalVisible:false})
@@ -216,14 +214,22 @@ getServiceBoyRow(assigneedetails){
           }}
         >
           <View style={modelStyle.centeredView}>
-            <View style={modelStyle.modalView}>
+            <View style={[modelStyle.modalView,{backgroundColor:"yellow"}]}>
               <ScrollView
+              
+              style={[{backgroundColor:"blue",width:"90%"}]} 
               style= {{
                 //backgroundColor:"red",
             width:"100%"}}
               >
             {this.state.serviceboys.map((item)=>{
             return ( this.getServiceBoyRow(item))
+          })}
+            {this.state.serviceboys.map((item)=>{
+            return ( <Text style={modelStyle.modalText}>{item.name}</Text>)
+          })}
+            {this.state.serviceboys.map((item)=>{
+            return ( <Text style={modelStyle.modalText}>{item.name}</Text>)
           })}
           
           </ScrollView>

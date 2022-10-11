@@ -23,7 +23,7 @@ modelText:{
   backgroundColor:'white',
   height:viewportHeight*0.06,
   borderRadius:viewportHeight*0.04,
-  fontSize:viewportWidth*0.05,
+  fontSize:viewportWidth*0.04,
   shadowColor:'rgba(0,0,0,0.3)',
   shadowRadius:2,
   shadowOffset:{width:0,height:1},

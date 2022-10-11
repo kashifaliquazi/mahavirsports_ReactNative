@@ -278,7 +278,7 @@ class Booking extends Component {
 
               }}
             >
-              <Text style={styles.tileTitleText}>Close Ticket</Text>
+              <Text style={styles.tileTitleText}>Resolve Ticket</Text>
             </TouchableOpacity>
           </View>
       </View>
@@ -286,20 +286,35 @@ class Booking extends Component {
           <View style={styles.tileRow}>
          
                       
-          <View style={{marginVertical:10}}>
-                <Text style={styles.tileTitleText}>Purchase Id</Text>
-                <Text style={styles.contentText}>{item.purchaseid}</Text>
-              </View>
   
+              <View style={{marginVertical:10}}>
+                <Text style={styles.tileTitleText}>Status</Text>
+                <Text style={styles.contentText}>{item.status}</Text>
+              </View>
                  <View style={{marginVertical:10}}>
-           <Text style={styles.tileTitleText}>Assignee Contact</Text>
+           <Text style={styles.tileTitleText}>Created on</Text>
            <Text style={styles.contentText}>{item.assigneecontact}</Text>
          </View>
 
           </View> 
-   
+          <View style={styles.tileRow}>
+         
+                      
+      
+ 
+             <View style={{marginVertical:10}}>
+               <Text style={styles.tileTitleText}>Assignee</Text>
+               <Text style={styles.contentText}>{item.status}</Text>
+             </View>
+                <View style={{marginVertical:10}}>
+          <Text style={styles.tileTitleText}>Assignee Contact</Text>
+          <Text style={styles.contentText}>{item.assigneecontact}</Text>
+        </View>
+
+         </View> 
   
           </View>
+          
           </View>)
   }
   render() {

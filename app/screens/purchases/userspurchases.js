@@ -7,6 +7,7 @@ const {width: viewportWidth,height: viewportHeight} = Dimensions.get('window');
 import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
 import globalStyles from "../../assets/css/globalstyles"
+import MyButton from "../../components/mybutton/mybutton";
 class Purchases extends Component {
     constructor(props){
         super(props);
@@ -33,7 +34,7 @@ class Purchases extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        alert(JSON.stringify(responseJson))
+        // alert(JSON.stringify(responseJson))
         this.props.dispatch({ type: 'HIDE_LOADER' });
         if (responseJson.success) {
            this.setState({user:responseJson.success})
@@ -93,16 +94,17 @@ class Purchases extends Component {
           console.log(responseJson)
           
           if (responseJson.success) {
-            let createdUser ={
-              "name": this.state.name,
-              "mobileno": this.state.mobileno,
-              "password": this.state.password,
-              "userid":responseJson.success.userid,
-              "role":"SERVICEBOY"
-            }
-            let users = [createdUser, ...this.state.user];
-            this.setState({user:users,modalVisible:false})
-           // this.setModalVisible(false)
+            alert(JSON.stringify(responseJson.success));
+            // let createdUser ={
+            //   "name": this.state.name,
+            //   "mobileno": this.state.mobileno,
+            //   "password": this.state.password,
+            //   "userid":responseJson.success.userid,
+            //   "role":"SERVICEBOY"
+            // }
+            // let users = [createdUser, ...this.state.user];
+            // this.setState({user:users,modalVisible:false})
+            this.setModalVisible(false)
 
   
           } 
@@ -140,11 +142,11 @@ class Purchases extends Component {
             <View style={modelStyle.centeredView}>
               <View style={modelStyle.modalView}>
 
-                <Text style={modelStyle.modalText}>Add Service Boy</Text>
+                <Text style={modelStyle.modalText}>Please tell us more!</Text>
                 <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
           <TextInput underlineColorAndroid='transparent'
           placeholder='Comment'
-          style={[globalStyles.modelText,this.getComemntStyle()]}
+          style={[globalStyles.modelText,this.getComemntStyle(),{height:120}]}
           onChangeText={(comment) => {
             this.setState({comment});
             this.setState({commentDirty : false});
@@ -156,8 +158,25 @@ class Purchases extends Component {
           </View>
 
 
+          <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', margin: 10 }}>
+
+                  
+<MyButton
+title="cancel"
+color="grey"
+onPress={() => {this.setModalVisible(!modalVisible)}
+}/>
+
+<MyButton
+title="Create Ticket"
+color={CONSTANTS.UI_CONSTANTS.SECONDARY_COLOR}
+onPress={() => {this.createTicket()}
+}/>
+
+ 
+</View>
           
-          <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
+          {/* <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
               <Pressable
                   style={[modelStyle.button, modelStyle.buttonClose]}
                   onPress={() =>{ 
@@ -177,7 +196,7 @@ class Purchases extends Component {
                 >
                   <Text style={modelStyle.textStyle}>Raise Ticket</Text>
                 </Pressable>
-              </View>
+              </View> */}
               </View>
              
             </View>

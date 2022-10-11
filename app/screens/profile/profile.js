@@ -16,6 +16,7 @@ class Profile extends Component {
       modalVisible: false,
       filterModalVisible: false,
       "name": '',
+      "userid":'',
       "repeatpassword": '',
       "mobileno": '',
       "currentpassword": '',
@@ -45,6 +46,10 @@ class Profile extends Component {
     if (userData !== null) {
 
       let user = JSON.parse(userData);
+    //  alert(userData);
+      this.setState({userid:user.userid,
+        name:user.name,
+        mobileno:user.mobileno});
       this.user = user;
       alert(userData);
     }
@@ -166,7 +171,7 @@ class Profile extends Component {
           <View style={{ width: "45%" }}>
             <Text style={[globalStyles.labelText, { color: "grey" }]}>User Id</Text>
           </View>
-          <Text style={[globalStyles.labelText, { color: "black", }]}>1</Text>
+          <Text style={[globalStyles.labelText, { color: "black", }]}>{this.state.userid}</Text>
         </View>
         <View style={{
           flexDirection: "row",
@@ -175,7 +180,7 @@ class Profile extends Component {
           <View style={{ width: "45%" }}>
             <Text style={[globalStyles.labelText, { color: "grey" }]}>Name</Text>
           </View>
-          <Text style={[globalStyles.labelText, { color: "black", }]}>Kashif Ali</Text>
+          <Text style={[globalStyles.labelText, { color: "black", }]}>{this.state.name}</Text>
         </View>
         <View style={{
           flexDirection: "row",
@@ -184,7 +189,7 @@ class Profile extends Component {
           <View style={{ width: "45%" }}>
             <Text style={[globalStyles.labelText, { color: "grey" }]}>Mobile No.</Text>
           </View>
-          <Text style={[globalStyles.labelText, { color: "black", }]}>9098580784</Text>
+          <Text style={[globalStyles.labelText, { color: "black", }]}>{this.state.mobileno}</Text>
         </View>
       </View>
       </View>
