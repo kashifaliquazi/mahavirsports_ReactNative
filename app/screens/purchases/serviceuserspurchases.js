@@ -7,6 +7,7 @@ const {width: viewportWidth,height: viewportHeight} = Dimensions.get('window');
 import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
 import globalStyles from "../../assets/css/globalstyles"
+import utils from "../../utils/utils"
 class Purchases extends Component {
     constructor(props){
         super(props);
@@ -58,7 +59,7 @@ class Purchases extends Component {
     }
 
     componentDidMount(){
-      alert("hello")
+      // alert("hello")
      this.getPurchases();
     }
 
@@ -222,46 +223,49 @@ class Purchases extends Component {
 
 
 <View style={styles.tileWrapper}>
-    <View style={styles.tileContainer}>
-     
+    <View style={styles.tileContainer}>  
     <View style={styles.tileRow}>
-        <View style={styles.tileRowInner}>
-          <Text style={styles.tileTitleText}>Bill Id</Text>
+       
+                    
+       <View style={{marginVertical:10}}>
+       <Text style={styles.tileTitleText}>Bill Id</Text>
           <Text style={styles.contentText}>{item.billid==undefined?CONSTANTS.BLANK_FIELD:item.billid}</Text>
         </View>
-        
-        <View style={styles.buttonRow}>
-        
-                <TouchableOpacity activeOpacity={0.8} style={[styles.tileIcon,{width: 112,height: 42,}]}
-                onPress={()=>{
-                  this.setState({modalVisible:true,purchaseid:item.purchaseid});
-                  
-                 }}
-                >
 
-                <Text style={styles.tileTitleText}>Bill Id</Text>
-                </TouchableOpacity>
-                </View>
-    </View>
-       
+              <View style={{marginVertical:10}}>
+              <Text style={styles.tileTitleText}>Product Id</Text>
+          <Text style={styles.contentText}>{item.productid==undefined?CONSTANTS.BLANK_FIELD:item.productid}</Text>
+     </View>
+     <View style={{marginVertical:10}}>
+              <Text style={styles.tileTitleText}>purchaseid ID</Text>
+              <Text style={styles.contentText}>{item.purchaseid}</Text>
+            </View>
+       </View> 
         <View style={styles.tileRow}>
        
                     
         <View style={{marginVertical:10}}>
-              <Text style={styles.tileTitleText}>purchaseid ID</Text>
-              <Text style={styles.contentText}>{item.purchaseid}</Text>
+              <Text style={styles.tileTitleText}>User ID</Text>
+              <Text style={styles.contentText}>{item.userid}</Text>
             </View>
 
+            <View style={{marginVertical:10}}>
+              <Text style={styles.tileTitleText}>name</Text>
+              <Text style={styles.contentText}>kashif</Text>
+            </View>
                <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Mobile no</Text>
-         <Text style={styles.contentText}>{item.mobileno}</Text>
-       </View>
-       <View style={{marginVertical:10}}>
-         <Text style={styles.tileTitleText}>Role</Text>
-         <Text style={styles.contentText}>{item.role}</Text>
+         <Text style={styles.tileTitleText}>Purchased on</Text>
+         <Text style={styles.contentText}>{utils.getFormatedData(item.purchasedate)}</Text>
        </View>
         </View> 
- 
+        <View style={styles.tileRow}>
+       
+                    
+       <View style={{marginVertical:10}}>
+             <Text style={styles.tileTitleText}>Product Details</Text>
+             <Text style={styles.contentText}>{item.productdetails}</Text>
+           </View>
+       </View> 
 
         </View>
         </View>

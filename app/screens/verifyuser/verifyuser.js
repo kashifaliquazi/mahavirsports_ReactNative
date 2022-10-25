@@ -24,7 +24,7 @@ class SignUp extends Component {
 
 
   componentDidMount() {
-    alert(this.props.route.params.mobileno);
+    // alert(this.props.route.params.mobileno);
   }
 
 

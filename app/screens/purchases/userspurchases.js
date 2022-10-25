@@ -94,7 +94,7 @@ class Purchases extends Component {
           console.log(responseJson)
           
           if (responseJson.success) {
-            alert(JSON.stringify(responseJson.success));
+            // alert(JSON.stringify(responseJson.success));
             // let createdUser ={
             //   "name": this.state.name,
             //   "mobileno": this.state.mobileno,

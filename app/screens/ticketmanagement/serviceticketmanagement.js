@@ -53,6 +53,7 @@ class ServiceUserTicketManagement extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.props.dispatch({ type: 'HIDE_LOADER' });
+        alert(JSON.stringify(responseJson));
         if (responseJson.success) {
            this.setState({user:responseJson.success,filterModalVisible:false})
   
@@ -312,14 +313,12 @@ class ServiceUserTicketManagement extends Component {
     <View style={styles.tileRow}>
        
                     
-       <View style={{marginVertical:10}}>
+      
        <View style={{marginVertical:10}}>
         <Text style={styles.tileTitleText}>Ticket id</Text>
         <Text style={styles.contentText}>{item.ticketid}</Text>
       </View>
-       <Text style={styles.tileTitleText}>Name</Text>
-          <Text style={styles.contentText}>{item.name==undefined?CONSTANTS.BLANK_FIELD:item.name}</Text>
-         </View>
+         
 
      
       <View style={{marginVertical:10}}>
@@ -335,10 +334,10 @@ class ServiceUserTicketManagement extends Component {
               <Text style={styles.contentText}>{item.productid}</Text>
             </View>
 
-               <View style={{marginVertical:10}}>
+               {/* <View style={{marginVertical:10}}>
          <Text style={styles.tileTitleText}>Status</Text>
          <Text style={styles.contentText}>{item.Status}</Text>
-       </View>
+       </View> */}
        <View style={{marginVertical:10}}>
          <Text style={styles.tileTitleText}>Status</Text>
          <Text style={styles.contentText}>{item.status}</Text>

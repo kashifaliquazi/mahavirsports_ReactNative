@@ -17,28 +17,13 @@ class CloseTicket extends Component {
       user: [],
       modalVisible: false,
       filterModalVisible: false,
-      "name": '',
-      "repeatpassword": '',
-      "mobileno": '',
-      "currentpassword": '',
-      "newpassword": '',
-      "purchasedetails": '',
+      "verificationcode": '',
       "comment": '',
-      nameDirty: false,
-      isNameEmpty: true,
-
-      repeatpasswordDirty: false,
-      isRepeatpasswordEmpty: true,
-
-      currentpasswordDirty: false,
-      isCurrentpasswordEmpty: true,
-
-      newpasswordDirty: false,
-      isNewpasswordEmpty: true,
-      purchasedetailsDirty: false,
-      isPurchasedetailsEmpty: true,
+      verificationcodeDirty: false,
+      isVerificationcodeEmpty: true,
       commentDirty: false,
       isCommentEmpty: true,
+      attachment:""
     };
   }
   getUsers = async () => {
@@ -48,106 +33,122 @@ class CloseTicket extends Component {
 
       let user = JSON.parse(userData);
       this.user = user;
-      alert(userData);
     }
   }
   componentDidMount() {
     
     this.getUsers();
   }
-  logout = async () => {
-    this.props.navigation.reset({
-      index: 0,
-      key: null,
-      routes: [{ name: 'Login' }],
-    });
-    await AsyncStorage.clear();
 
-  }
-
-  getCurrentPasswordStyle() {
-    if (this.state.isCurrentpasswordEmpty && this.state.currentpasswordDirty) {
+  getCommentStyle() {
+    if (this.state.isCommentEmpty && this.state.commentDirty) {
       return (globalStyles.textInputAlert);
     }
   }
-  getNewPasswordStyle() {
-    if (this.state.isNewpasswordEmpty && this.state.newpasswordDirty) {
-      return (globalStyles.textInputAlert);
-    }
-  }
-  getRepeatPasswordStyle() {
-    if (this.state.isRepeatpasswordEmpty && this.state.repeatpasswordDirty) {
+  getVerificationcodeStyle() {
+    if (this.state.isVerificationcodeEmpty && this.state.verificationcodeDirty) {
       return (globalStyles.textInputAlert);
     }
   }
 
-  changePassword = () => {
-    let submutForm = true;
-    if (this.state.currentpassword == '') {
-      this.setState({ isCurrentpasswordEmpty: true });
-      this.setState({ currentpasswordDirty: true });
-      submutForm = false;
-    }
 
-    if (this.state.newpassword == '') {
-      this.setState({ isNewpasswordEmpty: true });
-      this.setState({ newpasswordDirty: true });
-      submutForm = false;
-    }
-    if (this.state.repeatpassword == '') {
-      this.setState({ isRepeatpasswordEmpty: true });
-      this.setState({ repeatpasswordDirty: true });
-      submutForm = false;
-    }
-    if (this.state.repeatpassword != this.state.newpassword) {
-      this.setState({ isRepeatpasswordEmpty: true });
-      this.setState({ repeatpasswordDirty: true });
-      submutForm = false;
-    }
-
-    if (!submutForm)
-      return
-    this.props.dispatch({ type: 'SHOW_LOADER' });
-    let url = CONSTANTS.BASE_URL + CONSTANTS.UPDATE_PASSWORD_API;
-    fetch(url, {
-      method: CONSTANTS.METHODS.POST,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.user.token}`
-      },
-      body: JSON.stringify({
-        "currentpassword": this.state.currentpassword,
-        "newpassword": this.state.newpassword
-      })
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.props.dispatch({ type: 'HIDE_LOADER' });
-        console.log(responseJson)
-
-        if (responseJson.success) {
-          let createdUser = {
-            "name": this.state.name,
-            "mobileno": this.state.mobileno,
-            "password": this.state.password,
-            "userid": responseJson.success.userid,
-            "role": "SERVICEBOY"
-          }
-          let users = [createdUser, ...this.state.user];
-          this.setState({ user: users, modalVisible: false })
-          // this.setModalVisible(false)
-
-
+  getSignedUrl = async (filename)=>{
+    try{
+      let url = `${CONSTANTS.BASE_URL}${CONSTANTS.GET_SIGNED_URL}?file=${filename}`;
+      this.props.dispatch({ type: 'SHOW_LOADER' });
+      let response = await fetch(url, {
+        method: CONSTANTS.METHODS.GET,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.user.token}`
         }
-      })
-      .catch((error) => {
-        this.props.dispatch({ type: 'HIDE_LOADER' });
-        this.setModalVisible(!modalVisible)
-        console.error(error);
       });
+      const responseJson = await response.json();
+      return responseJson;
+    }catch(ex){
+      alert("ex>"+ex);
+      throw ex;
+    }
   }
 
-  getChangePasswordView = ()=>{
+    getBlob = async (fileUri) => {
+    const resp = await fetch(fileUri);
+    const imageBody = await resp.blob();
+    return imageBody;
+  };
+  uploadData = async (signedURL,file)=>{
+   
+    try{
+      const imageBody = await this.getBlob(file.uri);
+      let url = signedURL.success;
+      await fetch(url, {
+        method: "PUT",
+        body: imageBody,
+      });
+    }catch(ex){
+alert("Error on file upload"+ex);
+    }
+  }
+  closeTicket = async ()=>{
+    try{
+      let submutForm = true;
+      if (this.state.verificationcode == '') {
+        this.setState({ isVerificationcodeEmpty: true });
+        this.setState({ verificationcodeDirty: true });
+        submutForm = false;
+      }
+  
+      if (this.state.comment == '') {
+        this.setState({ isCommentEmpty: true });
+        this.setState({ commentDirty: true });
+        submutForm = false;
+      }
+  
+      if (!submutForm)
+        return
+      let url = `${CONSTANTS.BASE_URL}${CONSTANTS.CLOSE_TICKET}`;
+      this.props.dispatch({ type: 'SHOW_LOADER' });
+      let response = await fetch(url, {
+        method: CONSTANTS.METHODS.POST,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.user.token}`
+        },
+        body: JSON.stringify({
+          "ticketid": this.props.route.params.ticketid,
+          "verificationcode": this.state.verificationcode,
+          "comments":this.state.comment,
+          "attachments":this.state.attachment
+        })
+      });
+      const responseJson = await response.json();
+      //alert("Close resolt"+JSON.stringify(responseJson));
+      this.props.dispatch({ type: 'HIDE_LOADER' });
+     
+      this.props.navigation.navigate('Tickets');
+      return responseJson;
+      
+    }catch(ex){
+      this.props.dispatch({ type: 'Hide_LOADER' });
+alert("Close ticket Exceptiom"+JSON.stringify(ex));
+    }
+  }
+  uploadAttachment = async (attachment)=>{
+    try{
+      let signedURL = await this.getSignedUrl(attachment.assets[0].fileName);
+      let uploadResult = await this.uploadData(signedURL,attachment.assets[0]);
+
+      this.setState({attachment:attachment.assets[0].fileName})
+      // let uploadResult = await this.closeTicket();
+      this.props.dispatch({ type: 'HIDE_LOADER' });
+    }catch(ex){
+      this.props.dispatch({ type: 'HIDE_LOADER' });
+      alert("exception upload"+JSON.stringify(ex));
+    }
+    
+  }
+
+  getCloseTicketView = ()=>{
     return (<View
       style={{
        // width: "90%",
@@ -167,25 +168,23 @@ class CloseTicket extends Component {
         <TextInput underlineColorAndroid='transparent'
           placeholder='Verification Code'
           eyboardType='numeric'
-          style={[globalStyles.modelText, this.getCurrentPasswordStyle()]}
-          onChangeText={(currentpassword) => {
-            this.setState({ currentpassword });
-            this.setState({ currentpasswordDirty: false });
-            // this.setState({isUserNameEmpty : false});
+          style={[globalStyles.modelText, this.getVerificationcodeStyle()]}
+          onChangeText={(verificationcode) => {
+            this.setState({ verificationcode });
+            this.setState({ verificationcodeDirty: false });
           }}
-          value={this.state.currentpassword} />
+          value={this.state.verificationcode} />
       </View>
       <View style={[{ padding: 4, justifyContent: 'center', alignItems: 'center', margin: 3, width: '95%' }]}>
         <TextInput underlineColorAndroid='transparent'
           placeholder='Comment'
           multiline={true}
-          style={[globalStyles.modelText, this.getNewPasswordStyle(), { height: 120 }]}
-          onChangeText={(newpassword) => {
-            this.setState({ newpassword });
-            this.setState({ newpasswordDirty: false });
-            // this.setState({isUserNameEmpty : false});
+          style={[globalStyles.modelText, this.getCommentStyle(), { height: 120 }]}
+          onChangeText={(comment) => {
+            this.setState({ comment });
+            this.setState({ commentDirty: false });
           }}
-          value={this.state.newpassword}
+          value={this.state.comment}
         />
       </View>
 
@@ -196,7 +195,8 @@ class CloseTicket extends Component {
         <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Attach Media'}
           onPress={() => {
             launchImageLibrary({}, (data)=>{
-              alert(JSON.stringify(data));
+              this.uploadAttachment(data)
+             // alert(data.assets[0].fileName);
             });
           }} />
    <View style={{
@@ -208,9 +208,7 @@ class CloseTicket extends Component {
             color: "grey"
           }}
           onPress={() => {
-            launchCamera({}, (data)=>{
-              alert(JSON.stringify(data));
-            });
+            this.closeTicket();
           }} />
 
       </View>
@@ -223,10 +221,10 @@ class CloseTicket extends Component {
       <KeyboardHandling>
             <View style={{
               flex: 1,
-              
-             // minHeight:viewportHeight
+              backgroundColor: 'white',
+              minHeight:viewportHeight
             }}>
-              {this.getChangePasswordView()}
+              {this.getCloseTicketView()}
               
             </View>
       </KeyboardHandling>

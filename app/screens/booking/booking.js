@@ -25,6 +25,8 @@ class Booking extends Component {
           isPasswordEmpty:true,
           mobileDirty:false,
           isMobileEmpty:true,
+          pin:"",
+          item:{}
         };
         this.user ={};
     }
@@ -41,7 +43,7 @@ class Booking extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-       alert(JSON.stringify(responseJson))
+      //  alert(JSON.stringify(responseJson))
         this.props.dispatch({ type: 'HIDE_LOADER' });
         if (responseJson.success) {
            this.setState({user:responseJson.success})
@@ -156,6 +158,17 @@ class Booking extends Component {
           return(globalStyles.textInputAlert);
       }
     }
+    getPinText = ()=>{
+      if(this.state.item.status == "INPROGRESS"){
+        return `Share ${this.state.pin} to close the Ticket!`
+      }else if(this.state.item.status == "COMPLETED"){
+        return 'This ticket is already closed'
+      }else if(this.state.item.status == "PENDING"){
+        return 'We will assign you the vender shortly'
+      }else{
+        return "asasdf"
+      }
+    }
     getModel =()  =>{
       const { modalVisible } = this.state;
       return (
@@ -173,47 +186,16 @@ class Booking extends Component {
               <View style={modelStyle.modalView}>
 
               <View style={[{paddingVertical:10}]}>
-              <Text style={globalStyles.labelText}>Create Ticket</Text>
+              <Text style={globalStyles.labelText}>Verification Code</Text>
               </View>
                
-                <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
-          <TextInput underlineColorAndroid='transparent'
-          placeholder='Name'
-          style={[globalStyles.modelText,this.getNameStyle()]}
-          onChangeText={(name) => {
-            this.setState({name});
-            this.setState({nameDirty : false});
-            // this.setState({isUserNameEmpty : false});
-            }}
-            value={this.state.name}
-          />
-          </View>
-          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
-          <TextInput underlineColorAndroid='transparent'
-          placeholder='Mobile no'
-          style={[globalStyles.modelText,this.getMobileStyle()]}
-          onChangeText={(mobileno) => {
-            this.setState({mobileno});
-            this.setState({mobileDirty : false});
-            // this.setState({isUserNameEmpty : false});
-            }}
-            value={this.state.mobileno}
-
-          />
-          </View>
+              <View style={[{paddingVertical:10}]}>
+              <Text style={globalStyles.textBoxLables}>{this.getPinText()}</Text>
+              </View>
+               
+       
           
-          <View style={[{padding:4,justifyContent:'center',alignItems:'center',margin:3,width:'90%'}]}>
-          <TextInput underlineColorAndroid='transparent'
-          placeholder='Password'
-          style={[globalStyles.modelText,this.getPasswordStyle()]}
-          onChangeText={(password) => {
-            this.setState({password});
-            this.setState({passwordDirty : false});
-            // this.setState({isUserNameEmpty : false});
-            }}
-            value={this.state.password}
-          />
-          </View>
+      
           <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', margin: 10 }}>
 
                   
@@ -221,15 +203,7 @@ class Booking extends Component {
     title="cancel"
     color="grey"
        onPress={() => {this.setModalVisible(!modalVisible)}
-       }/>
-
-<MyButton
-    title="Create Ticket"
-    color={CONSTANTS.UI_CONSTANTS.SECONDARY_COLOR}
-       onPress={() => {this.createTicket()}
-       }/>
-
-               
+       }/>               
               </View>
           {/* <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>
               <Pressable
@@ -274,11 +248,12 @@ class Booking extends Component {
 
             <TouchableOpacity activeOpacity={0.8} style={[styles.tileIcon, { width: 112, height: 42, }]}
               onPress={() => {
-                this.setState({ modalVisible: true, purchaseid: item.purchaseid });
+            
+                this.setState({ modalVisible: true, purchaseid: item.purchaseid,pin:item.pin,item:item });
 
               }}
             >
-              <Text style={styles.tileTitleText}>Resolve Ticket</Text>
+              <Text style={styles.tileTitleText}>Resolve</Text>
             </TouchableOpacity>
           </View>
       </View>
@@ -338,11 +313,11 @@ class Booking extends Component {
           </View> */}
       <View >
         {this.getModel()}
-      <Fab
+      {/* <Fab
       onClick={()=>{
         this.setModalVisible(true)
       }}
-         />
+         /> */}
         
       <FlatList
   data={this.state.user}
@@ -370,7 +345,7 @@ const modelStyle = StyleSheet.create({
   },
   modalView: {
    // flex: 1,
-    height:viewportHeight - viewportHeight*0.4,
+    height:viewportHeight - viewportHeight*0.6,
     width:viewportWidth -viewportWidth *0.1,
     margin: 20,
     backgroundColor: "white",

@@ -34,6 +34,8 @@ export const UPDATE_PASSWORD_API ="user/updatepassword"
 export const GET_ASSIGNED_TICKETS_API = 'service/getassignedtickets';
 export const GET_SERVICE_USER_PURCHASES_API = 'service/getpurchases';
 export const ADD_PURCHASE_API = 'service/addpurchase';
+export const GET_SIGNED_URL ="service/getsignedURL"
+export const CLOSE_TICKET ="service/closeticket"
 
 export const CDN_BASE_URL ='https://mhydemoassets.blob.core.windows.net/';// REGION =='Dev'? 'https://mhydevassets.blob.core.windows.net/':'https://mhyqaassets.blob.core.windows.net/';
 export const ACTION_LOG_API = 'https://mhydemofunc.azurewebsites.net'; //REGION =='Dev'? 'https://mhydevfunc.azurewebsites.net/api/InsertActionLog':'https://mhyqafunc.azurewebsites.net/api/InsertActionLog';

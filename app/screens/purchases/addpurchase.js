@@ -146,7 +146,7 @@ class UserManagement extends Component {
       .then((responseJson) => {
         this.props.dispatch({ type: 'HIDE_LOADER' });
         console.log(responseJson)
-        alert(JSON.stringify(responseJson));
+        // alert(JSON.stringify(responseJson));
         if (responseJson.success) {
 
 

@@ -199,7 +199,7 @@ buttonText: {
   },
 
   contentText: {
-    // fontSize: '1.17rem',
+    fontSize:viewportWidth*0.038,
     color: 'grey',
     marginTop:3,
     // //fontFamily: 'unisansregular',
@@ -207,6 +207,7 @@ buttonText: {
   },
 
   tileTitleText: {
+    fontSize:viewportWidth*0.038,
     // fontSize: '1rem',
     //color: '#8DC440',
     color:"black",

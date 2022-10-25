@@ -10,6 +10,8 @@ import globalStyles from "../../assets/css/globalstyles";
 import CheckBox from '@react-native-community/checkbox';
 import GradientButton from '../../components/gradientbutton/gradientButton';
 import MyButton from "../../components/mybutton/mybutton";
+import moment from 'moment'
+import utils from '../../utils/utils'
 class ServiceTicketDetails extends Component {
     constructor(props){
         super(props);
@@ -19,6 +21,8 @@ class ServiceTicketDetails extends Component {
           purchasedetails:{},
           assigneedetails:{}
         }
+        // let date = moment(new Date(this.props.route.params.ticket.created)).format('DD/MM/YYYY');
+        // alert(date);
     }
     fetchServiceBoys = (user,filers={}) => {
      // this.props.dispatch({ type: 'SHOW_LOADER' });
@@ -34,6 +38,7 @@ class ServiceTicketDetails extends Component {
   })
     .then((response) => response.json())
     .then((responseJson) => {
+
       this.props.dispatch({ type: 'HIDE_LOADER' });
       if (responseJson.success) {
          this.setState({serviceboys:responseJson.success,filterModalVisible:true})
@@ -254,7 +259,23 @@ getServiceBoyRow(assigneedetails){
   }
   renderPurcahseDetails(){
     return ( <View style={styles.tileWrapper}>
-      <View style={styles.tileContainer}>
+      <View style={{
+    // backgroundColor: 'white',
+    // flexShrink:1, //added flexShrink:1 to fix : https://gohealthyyou.atlassian.net/browse/MYHMOBILE-1981
+    // // flexWrap: 'wrap',
+     padding: 12,
+    // borderRadius: 14,
+    // width: '100%',
+    // shadowColor: 'rgba(0,0,0,1)',
+    // shadowOpacity: 0.2,
+    // shadowRadius: 6,
+    // elevation:5,
+    // // shadowOffset: {
+    // //   width: 0,
+    // //   height: 0
+    // // },
+    // marginVertical: 10
+  }}>
         <View style={styles.tileRow}>
           <View style={{ marginVertical: 10 }}>
             <Text style={styles.tileTitleText}>Purchase ID</Text>
@@ -278,9 +299,13 @@ getServiceBoyRow(assigneedetails){
             <Text style={styles.tileTitleText}>Sold By</Text>
             <Text style={styles.contentText}>{this.state.purchasedetails.initiatedbyname == undefined ? CONSTANTS.BLANK_FIELD : this.state.purchasedetails.initiatedbyname}</Text>
           </View>
+         
+        </View>
+        <View style={styles.tileRow}>
+       
           <View style={{ marginVertical: 10 }}>
             <Text style={styles.tileTitleText}>Purchased on</Text>
-            <Text style={styles.contentText}>{this.state.purchasedetails.purchasedate == undefined ? CONSTANTS.BLANK_FIELD : this.state.purchasedetails.purchasedate}</Text>
+            <Text style={styles.contentText}>{this.state.purchasedetails.purchasedate == undefined ? CONSTANTS.BLANK_FIELD : utils.getFormatedData(this.state.purchasedetails.purchasedate)}</Text>
           </View>
         </View>
       
@@ -291,7 +316,23 @@ getServiceBoyRow(assigneedetails){
   renderTicketDetials(){
     let item ={};
     return( <View style={styles.tileWrapper}>
-      <View style={styles.tileContainer}>
+      <View style={{
+    // backgroundColor: 'white',
+    // flexShrink:1, //added flexShrink:1 to fix : https://gohealthyyou.atlassian.net/browse/MYHMOBILE-1981
+    // // flexWrap: 'wrap',
+     padding: 12,
+    // borderRadius: 14,
+    // width: '100%',
+    // shadowColor: 'rgba(0,0,0,1)',
+    // shadowOpacity: 0.2,
+    // shadowRadius: 6,
+    // elevation:5,
+    // // shadowOffset: {
+    // //   width: 0,
+    // //   height: 0
+    // // },
+    // marginVertical: 10
+  }}>
         <View style={styles.tileRow}>
           <View style={{ marginVertical: 10 }}>
             <Text style={styles.tileTitleText}>User ID</Text>
@@ -318,9 +359,10 @@ getServiceBoyRow(assigneedetails){
           </View>
           <View style={{ marginVertical: 10 }}>
             <Text style={styles.tileTitleText}>Created</Text>
-            <Text style={styles.contentText}>{this.props.route.params.ticket.created == undefined ? CONSTANTS.BLANK_FIELD : this.props.route.params.ticket.created}</Text>
+            <Text style={styles.contentText}>{this.props.route.params.ticket.created == undefined ? CONSTANTS.BLANK_FIELD : utils.getFormatedData(this.props.route.params.ticket.created)}</Text>
           </View>
         </View>
+        
         {/* <View style={styles.tileRow}>
         
           <View style={{ marginVertical: 10 }}>
@@ -331,107 +373,19 @@ getServiceBoyRow(assigneedetails){
       </View>
     </View>)
   }
-  renderAssigneeDetails(){
-    if(this.props.route.params.ticket.status == 'PENDING'){
-      if(this.state.assigneedetails.name ==undefined){
-        return ( <View style={styles.tileWrapper}>
-          <TouchableOpacity
-          onPress={()=>{
-           if(this.state.serviceboys.length ==0){
-             this.fetchServiceBoys(this.user);
-           }else{
-             this.setState({filterModalVisible:true})
-           }
-          }}
-          style={{
-           backgroundColor: 'white',
-           flexShrink:1,
-           padding: 12,
-           borderRadius: 14,
-           width: '100%',
-           elevation:5,
-           marginVertical: 10,
-           alignItems:'center'
-         }}>
-        <Text style={{}}>Tap to assign </Text>
-        
-        
-               </TouchableOpacity>
-               <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Assign Ticket'}
-          onPress={() => this.assignTicket()} />
-               {/* <Button
-               title="Assign"
-               onPress={() => {
-               // this.props.navigation.navigate('Users');
-                this.assignTicket();
-             
-               }}/> */}
-           </View>);
-      }else{
-        return ( <View style={styles.tileWrapper}>
-          <TouchableOpacity
-          onPress={()=>{
-           if(this.state.serviceboys.length ==0){
-             this.fetchServiceBoys(this.user);
-           }else{
-             this.setState({filterModalVisible:true})
-           }
-          }}
-          style={{
-           backgroundColor: 'white',
-           flexShrink:1,
-           padding: 12,
-           borderRadius: 14,
-           width: '100%',
-           elevation:5,
-           marginVertical: 10,
-          // alignItems:'center'
-         }}>
-           <View><View style={styles.tileRow}>
-                 <View style={{ marginVertical: 10 }}>
-                   <Text style={styles.tileTitleText}>Name</Text>
-                   <Text style={styles.contentText}>{this.state.assigneedetails.name == undefined ? CONSTANTS.BLANK_FIELD : this.state.assigneedetails.name}</Text>
-                 </View>
-                 <View style={{ marginVertical: 10 }}>
-                   <Text style={styles.tileTitleText}>Mobile no</Text>
-                   <Text style={styles.contentText}>{this.state.assigneedetails.mobileno == undefined ? CONSTANTS.BLANK_FIELD : this.state.assigneedetails.mobileno}</Text>
-                 </View>
-               </View></View>
-        
-               </TouchableOpacity>
-               <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Assign Ticket'}
-          onPress={() => this.assignTicket()} />
-           </View>);
-      }
-   
-    }
-    else
-    return ( <View style={styles.tileWrapper}>
-      <View style={styles.tileContainer}>
-        <View style={styles.tileRow}>
-          <View style={{ marginVertical: 10 }}>
-            <Text style={styles.tileTitleText}>Name</Text>
-            <Text style={styles.contentText}>{this.state.assigneedetails.name == undefined ? CONSTANTS.BLANK_FIELD : this.state.assigneedetails.name}</Text>
-          </View>
-          <View style={{ marginVertical: 10 }}>
-            <Text style={styles.tileTitleText}>Mobile no</Text>
-            <Text style={styles.contentText}>{this.state.assigneedetails.mobileno == undefined ? CONSTANTS.BLANK_FIELD : this.state.assigneedetails.mobileno}</Text>
-          </View>
-        </View>
-      </View>
-    </View>)
-  }
+
   render() {
     
     return (
       <View style={{
            flex: 1,
+           backgroundColor: 'white',
          //  marginTop:
-          // justifyContent: "center",
-          // alignItems: "center"
+        //  justifyContent: "center",
+         // alignItems: "center"
         }}>
-         
-        <ScrollView>
+        
+        <ScrollView >
         <View
         style ={{
         marginTop:20,
@@ -441,6 +395,7 @@ getServiceBoyRow(assigneedetails){
         <Text style={globalStyles.labelText}>Ticket Details</Text>
       </View>
         {this.renderTicketDetials()}
+        <View style={[globalStyles.separator,{width:"100%"}]} />
         <View
            style ={{
             marginTop:20,
@@ -449,6 +404,7 @@ getServiceBoyRow(assigneedetails){
         >
         <Text style={globalStyles.labelText}>Purchase Details</Text>
       </View>
+     
         {this.renderPurcahseDetails()}
         <View
           style ={{
@@ -460,28 +416,21 @@ getServiceBoyRow(assigneedetails){
       </View>
       <View style={{
         flexDirection: "column",
-        paddingVertical: 7
+        paddingVertical: 7,
+        width:'90%',
+       // alignContent:"center",
+        alignSelf:"center"
       }}>
         <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Mark completed'}
           style={{
             color: "grey"
           }}
-          onPress={() =>   this.props.navigation.navigate('CloseTicket')} />
+          onPress={() =>   this.props.navigation.navigate('CloseTicket',{ticketid:this.props.route.params.ticket.ticketid})} />
 
       </View>
-        {/* {this.renderAssigneeDetails()} */}
+      
         
-        {/* <View style={{
-        paddingVertical: 7,
-        width:"90%",
-        alignContent:"center",
-        justifyContent:"center"
-
-      }}>
-        <GradientButton color={CONSTANTS.UI_CONSTANTS.LIGHTBLUE_CTA_COLORS} type={'BTN'} text={'Assign Ticket'}
-          onPress={() => this.assignTicket()} />
-</View> */}
-   
+       
         </ScrollView>
          {this.getFilterModel()}
       </View>

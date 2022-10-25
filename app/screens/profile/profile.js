@@ -275,8 +275,9 @@ class Profile extends Component {
             <View style={{
               flex: 1,
               
-             // minHeight:viewportHeight
+              minHeight:viewportHeight
             }}>
+
               {this.getProfileView()}
               {this.getChangePasswordView()}
               
