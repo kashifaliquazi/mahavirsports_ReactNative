@@ -30,7 +30,7 @@ class KeyboardHandling extends Component {
         
         <HeaderHeightContext.Consumer>
   {(headerHeight) => {
-        return (<KeyboardAvoidingView behavior="padding"  keyboardVerticalOffset= {headerHeight}>
+        return (<KeyboardAvoidingView behavior="padding" enabled={false}  keyboardVerticalOffset= {headerHeight}>
           <ScrollView
             bounces={false}
             // contentContainerStyle={commonStyles.scrollContainer}
