@@ -10,7 +10,7 @@ import globalStyles from "../../assets/css/globalstyles";
 import CheckBox from '@react-native-community/checkbox';
 import MyButton from "../../components/mybutton/mybutton";
 import FontAwesome, {Icons,SolidIcons, RegularIcons, BrandIcons} from 'react-native-fontawesome';
-
+import utils from '../../utils/utils'
 import GradientButton from '../../components/gradientbutton/gradientButton';
 class UserManagement extends Component {
   constructor(props) {
@@ -436,9 +436,10 @@ onPress={() => {
                       <Text style={styles.tileTitleText}>Status</Text>
                       <Text style={styles.contentText}>{item.status}</Text>
                     </View>
+                    
                     <View style={{ marginVertical: 10 }}>
                       <Text style={styles.tileTitleText}>Created</Text>
-                      <Text style={styles.contentText}>{item.created}</Text>
+                      <Text style={styles.contentText}>{utils.getFormatedData(item.created)}</Text>
                     </View>
                   </View>
                   <View style={styles.tileRow}>

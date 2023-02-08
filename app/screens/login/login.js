@@ -18,7 +18,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     //alert("Loginn ",this.props);
-    this.state = { mobileno: '9977297397', password: 'Test@123',
+    this.state = { mobileno: '', password: '',
     modalVisible:true };
 
   }

@@ -8,6 +8,7 @@ import * as CONSTANTS from '../../utils/constant';
 import { connect } from 'react-redux';
 import globalStyles from "../../assets/css/globalstyles"
 import MyButton from "../../components/mybutton/mybutton";
+import utils from '../../utils/utils'
 class Purchases extends Component {
     constructor(props){
         super(props);
@@ -65,6 +66,7 @@ class Purchases extends Component {
 
 
     createTicket = () => {
+      
       let submutForm = true;
        if(this.state.comment == '')
       {
@@ -74,7 +76,7 @@ class Purchases extends Component {
       }
       if(!submutForm)
       return
-      
+      //alert("call API");
       this.props.dispatch({type:'SHOW_LOADER'});
       let url = CONSTANTS.BASE_URL + CONSTANTS.CREATE_TICKET_API;
       fetch(url, {
@@ -92,8 +94,9 @@ class Purchases extends Component {
         .then((responseJson) => {
           this.props.dispatch({type:'HIDE_LOADER'});
           console.log(responseJson)
-          
+          alert(JSON.stringify(responseJson));
           if (responseJson.success) {
+            alert("The ticket has been created we will shortly assign to one of our Team member!");
             // alert(JSON.stringify(responseJson.success));
             // let createdUser ={
             //   "name": this.state.name,
@@ -237,7 +240,7 @@ onPress={() => {this.createTicket()}
 
           <View style={{ marginVertical: 10 }}>
             <Text style={styles.tileTitleText}>Purchased Date</Text>
-            <Text style={styles.contentText}>{item.purchasedate == undefined ? CONSTANTS.BLANK_FIELD : item.purchasedate}</Text>
+            <Text style={styles.contentText}>{item.purchasedate == undefined ? CONSTANTS.BLANK_FIELD :utils.getFormatedData(item.purchasedate)}</Text>
           </View>
         </View>
         <View style={styles.tileRow}>

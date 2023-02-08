@@ -148,7 +148,7 @@ class UserManagement extends Component {
         console.log(responseJson)
         // alert(JSON.stringify(responseJson));
         if (responseJson.success) {
-
+          this.props.navigation.navigate('Purchases');
 
         }
       })
@@ -380,7 +380,7 @@ class UserManagement extends Component {
   render() {
     return (
       <KeyboardHandling>
-        <View>
+        <View style={{minHeight:viewportHeight}}>
           <View style={{ width: "45%", paddingHorizontal: "4%", paddingVertical: 20 }}>
             <Text style={[globalStyles.labelText, { color: "#0E86D4", paddingHorizontal: 0 }]}>Add Purchase</Text>
           </View>
@@ -393,6 +393,7 @@ class UserManagement extends Component {
               <TextInput underlineColorAndroid='transparent'
                 placeholder='User Id'
                 eyboardType='numeric'
+                
                 style={[globalStyles.modelText, this.getUseridStyle()]}
                 onChangeText={(userid) => {
                   this.setState({ userid });
@@ -442,7 +443,8 @@ class UserManagement extends Component {
               <TextInput underlineColorAndroid='transparent'
                 placeholder='Comment'
                 multiline={true}
-                style={[globalStyles.modelText, this.getCommentStyles(), { height: 120 }]}
+                textAlignVertical = 'center'
+                style={[globalStyles.modelText, this.getCommentStyles(), { height: 120,}]}
                 onChangeText={(comment) => {
                   this.setState({ comment });
                   this.setState({ commentDirty: false });

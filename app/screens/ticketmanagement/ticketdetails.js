@@ -149,16 +149,24 @@ assignTicket = () => {
       console.log(responseJson)
       
       if (responseJson.success) {
-        let createdUser ={
-          "name": this.state.name,
-          "mobileno": this.state.mobileno,
-          "password": this.state.password,
-          "userid":responseJson.success.userid,
-          "role":"SERVICEBOY"
-        }
-        let users = [createdUser, ...this.state.user];
-        this.setState({user:users,modalVisible:false})
-       // this.setModalVisible(false)
+        
+        Alert.alert(
+          "Alert",
+          "Ticket is Assiged!",
+          [
+            { text: "OK", onPress: () => console.log("OK Pressed") }
+          ]
+        );
+        // let createdUser ={
+        //   "name": this.state.name,
+        //   "mobileno": this.state.mobileno,
+        //   "password": this.state.password,
+        //   "userid":responseJson.success.userid,
+        //   "role":"SERVICEBOY"
+        // }
+        // let users = [createdUser, ...this.state.user];
+        // this.setState({user:users,modalVisible:false})
+       // 
 
 
       } 
@@ -170,7 +178,7 @@ assignTicket = () => {
     });
 }
 getServiceBoyRow(assigneedetails){
- return ( <View style={[styles.tileWrapper,{width:"90%",backgroundColor:"red"}]}>
+ return ( <View style={[styles.tileWrapper,{width:"90%"}]}>
    <TouchableOpacity
    onPress={()=>{
     this.setState({assigneedetails:assigneedetails,filterModalVisible:false})
@@ -214,7 +222,7 @@ getServiceBoyRow(assigneedetails){
           }}
         >
           <View style={modelStyle.centeredView}>
-            <View style={[modelStyle.modalView,{backgroundColor:"yellow"}]}>
+            <View style={[modelStyle.modalView,{}]}>
               <ScrollView
               
               style={[{backgroundColor:"blue",width:"90%"}]} 
@@ -225,12 +233,12 @@ getServiceBoyRow(assigneedetails){
             {this.state.serviceboys.map((item)=>{
             return ( this.getServiceBoyRow(item))
           })}
-            {this.state.serviceboys.map((item)=>{
+            {/* {this.state.serviceboys.map((item)=>{
             return ( <Text style={modelStyle.modalText}>{item.name}</Text>)
           })}
             {this.state.serviceboys.map((item)=>{
             return ( <Text style={modelStyle.modalText}>{item.name}</Text>)
-          })}
+          })} */}
           
           </ScrollView>
           <View style={{width:'100%',flexDirection:'row',justifyContent:'space-evenly',margin:10}}>

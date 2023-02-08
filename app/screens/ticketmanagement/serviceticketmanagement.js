@@ -53,7 +53,7 @@ class ServiceUserTicketManagement extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.props.dispatch({ type: 'HIDE_LOADER' });
-        alert(JSON.stringify(responseJson));
+        // alert(JSON.stringify(responseJson));
         if (responseJson.success) {
            this.setState({user:responseJson.success,filterModalVisible:false})
   
